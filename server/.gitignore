@@ -1,0 +1,6 @@
+node_modules/
+configS.env
+dist/
+build/
+logs/
+*.log
