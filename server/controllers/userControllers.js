@@ -4,6 +4,7 @@ const catchAsync=require("../utils/catchAsync");
 
 exports.getAllUsers=catchAsync(async (req,res,next)=>{
     const users=await User.find();
+    if(!users)return new AppError("something went wrong.Please try again",404);//most rare cases
     res.status(200).json({
         status:"success",
         data:{
@@ -16,7 +17,7 @@ exports.getAllUsers=catchAsync(async (req,res,next)=>{
 
 exports.getUser=catchAsync(async(req,res,next)=>{
     const user=await User.findById(req.params.id);
-    if(!user)next(new AppError('No user Found .Please try again',404));
+    if(!user)return next(new AppError('No user Found .Please try again',404));
     res.status(200).json({
         status:"success",
         data:{

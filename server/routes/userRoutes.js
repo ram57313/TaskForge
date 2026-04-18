@@ -6,6 +6,6 @@ const router=express.Router();
 router.route('/').get(userController.getAllUsers);
 router.route('/signup').post(authController.signup);
 router.route('/:id').get(userController.getUser);
-
+router.route('/guest-login').post(authController.guestSignup);
 
 module.exports=router;

@@ -15,12 +15,15 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:[true,'password is required'],
         minlength:8,
-        
     },
     createdAt:{
         type:Date,
         default:Date.now(),
         select:false
+    },
+    isGuest:{
+        type:Boolean,
+        default:false
     }
 })
 
