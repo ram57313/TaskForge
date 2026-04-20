@@ -1,4 +1,5 @@
 const mongoose=require("mongoose");
+const brcypt=require("bcrypt");
 
 const userSchema=new mongoose.Schema({
     name:{
@@ -15,6 +16,7 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:[true,'password is required'],
         minlength:8,
+        select:false
     },
     createdAt:{
         type:Date,
@@ -26,7 +28,9 @@ const userSchema=new mongoose.Schema({
         default:false
     }
 })
+userSchema.pre('save',async function(){
+    if(!this.isGuest)this.password=await brcypt.hash(this.password,12);
+})
 
 const User=mongoose.model('User',userSchema);
-
 module.exports=User;

@@ -1,21 +1,59 @@
 const User=require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
+const AppError=require("../utils/appError");
+const jwt=require("jsonwebtoken");
+const cookie=require("cookie-parser");
+const cookieParser = require("cookie-parser");
 
+const signToken=(id)=>{
+    return jwt.sign({id:id},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRES_IN} );
+}
 
+const createSendToken=(user,statusCode,res)=>{
+    const token=signToken(user._id);
+
+    const cookieOptions={
+        expires:new Date(Date.now()+(process.env.JWT_COOKIE_EXPIRES_IN)*24*60*60*1000),
+        httpOnly:true,
+        // secure:true  //sent only when we use https
+    }
+    if(process.env.NODE_ENV==='production')cookieOptions.secure=true;
+    res.cookie('jwt',token,cookieOptions);
+
+    user.password=undefined;
+    res.status(statusCode).json({
+        status:"success",
+        token,
+        data:{
+            user
+        }
+    })
+}
 exports.signup=catchAsync(async(req,res,next)=>{
-       const user=await User.create({//need to make lot of changes
+       const newuser=await User.create({//need to make lot of changes
         name:req.body.name,
         email:req.body.email,
         password:req.body.password
        });
-       res.status(201).json({
-        status:"success",
-        data:{
-            user
-        }
-       });
+    //    const user=await User.findById(newuser._id).select('-password')
+
+     createSendToken(newuser,200,res);
     
 });
+
+exports.login=catchAsync(async(req,res,next)=>{
+    const {email,password}=req.body;
+    
+    if(!email||!password)return next(new AppError("Please provide email and password",400));
+
+    const user=await User.findOne({email:email}).select('+password');
+    
+    if(!user)return next(new AppError("Incorrect Email or Password",401));
+
+     console.log(user);
+
+     createSendToken(user,200,res);
+})
 
 exports.guestSignup=catchAsync(async(req,res,next)=>{
     const guestUser=await User.create({
