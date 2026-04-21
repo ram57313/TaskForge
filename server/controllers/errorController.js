@@ -10,6 +10,13 @@ const handleDuplicateFieldErrorDB=(err)=>{
   const message=`duplicate field value ${value}.please select another value`;
   return new AppError(message,400);
 }
+const handleTokenExpiredError=()=>{
+    return new AppError("Token has expired,please login again",401);
+}
+
+const HandleJwtError=()=>{
+    return new AppError("invalid token,Please login again",401);
+}
 
 const handleValidationErrorDB=(err)=>{
     const errors=Object.values(err.errors).map(err=>err.message);
@@ -58,6 +65,7 @@ module.exports=(err,req,res,next)=>{
        error.message=err.message;
        if(error.name==="CastError")error=handleCastErrorDB(error);
        if(error.code===11000)error=handleDuplicateFieldErrorDB(error);
+       if(error.name==="TokenExpiredError")error=handleTokenExpiredError();
        if(error.name==="ValidationError")error=handleValidationErrorDB(error);
         sendErrorProd(error,req,res);
     }

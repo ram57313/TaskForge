@@ -1,3 +1,4 @@
+const {promisify}=require('util');
 const User=require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError=require("../utils/appError");
@@ -50,11 +51,19 @@ exports.login=catchAsync(async(req,res,next)=>{
     
     if(!user)return next(new AppError("Incorrect Email or Password",401));
 
-     console.log(user);
+    //  console.log(user);
+    //  console.log(res);
 
      createSendToken(user,200,res);
 })
-
+exports.logout=(req,res,next)=>{
+    res.clearCookie('jwt');
+    // console.log(res.cookie());
+    res.status(200).json({
+        status:"success",
+        "message":"logged out succesfully"
+    })
+}
 exports.guestSignup=catchAsync(async(req,res,next)=>{
     const guestUser=await User.create({
         name:`guest${Date.now()}`,
@@ -67,4 +76,26 @@ exports.guestSignup=catchAsync(async(req,res,next)=>{
         status:"success",
         guestUser
     })
+})
+
+exports.protect=catchAsync(async(req,res,next)=>{
+    let token;
+    if(req.headers.authorization&&req.headers.authorization.startsWith('Bearer')){
+        token=req.headers.authorization.split(' ')[1];
+    }else if(req.cookies.jwt){
+        token=req.cookies.jwt;
+    }
+
+    if(!token)return next(new AppError('you are not logged in ,Please login',401));
+    console.log(token);
+
+     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+    const currentuser=await User.findById(decoded.id);
+    if(!currentuser)return next(new AppError("The user of this Id is no longer exist,Please login again",401));
+
+    req.user=currentuser;
+    res.locals.user=currentuser;
+
+    next();
 })
