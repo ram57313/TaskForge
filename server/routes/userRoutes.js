@@ -14,5 +14,6 @@ router.route('/:id').get(userController.getUser);
 router.route('/guest-login').post(authController.guestSignup);
 router.route('/login').post(authController.login);
 router.route('/logout').post(authController.logout);
+router.route('/forgotPassword').post(authController.protect,authController.forgotPassword)
 
 module.exports=router;

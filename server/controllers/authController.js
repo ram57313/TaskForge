@@ -5,6 +5,7 @@ const AppError=require("../utils/appError");
 const jwt=require("jsonwebtoken");
 const cookie=require("cookie-parser");
 const cookieParser = require("cookie-parser");
+const Email = require('../utils/Email');
 
 const signToken=(id)=>{
     return jwt.sign({id:id},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRES_IN} );
@@ -34,7 +35,8 @@ exports.signup=catchAsync(async(req,res,next)=>{
        const newuser=await User.create({//need to make lot of changes
         name:req.body.name,
         email:req.body.email,
-        password:req.body.password
+        password:req.body.password,
+        confirmPassword:req.body.confirmPassword
        });
     //    const user=await User.findById(newuser._id).select('-password')
 
@@ -69,6 +71,7 @@ exports.guestSignup=catchAsync(async(req,res,next)=>{
         name:`guest${Date.now()}`,
         email:`guest${Date.now()}@demo.com`,
         password:"guest1234",
+        confirmPassword:"guest1234",
         isGuest:true
     });
     
@@ -98,4 +101,35 @@ exports.protect=catchAsync(async(req,res,next)=>{
     res.locals.user=currentuser;
 
     next();
+});
+
+exports.forgotPassword=catchAsync(async(req,res,next)=>{
+    const user=await User.findOne({email:req.body.email});
+    console.log(user);
+
+    if(!user)return new AppError('No user with this email',404);
+    
+    const resetToken=user.createResetToken();
+    await user.save({validateBeforeSave:false});
+
+    const resetUrl=`${req.protocol}//${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
+    const message=`Forgot your password? send a patch request to this url to reset your password-${resetUrl}.If you didnt forget ,please ignore this`;
+
+    try{
+       await new Email(user,resetUrl).sendPasswordReset();
+
+       res.status(200).json({
+        status:"success",
+        message:"token sent to email"//need to do change as there is no html for this
+       })
+    }catch(err){
+        console.log(`error ${err}`);
+      user.passwordResetToken=undefined
+      user.passwordResetExpires=undefined
+
+      return next(new AppError('There is an error in sending email,Please try again',500));
+    }
+
 })
+
+

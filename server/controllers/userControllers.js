@@ -3,7 +3,7 @@ const AppError=require("../utils/appError");
 const catchAsync=require("../utils/catchAsync");
 
 exports.getAllUsers=catchAsync(async (req,res,next)=>{
-    const users=await User.find();
+    const users=await User.find().select('-__v');
     if(!users)return new AppError("something went wrong.Please try again",404);//most rare cases
     res.status(200).json({
         status:"success",
