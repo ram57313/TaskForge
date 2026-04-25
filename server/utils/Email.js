@@ -1,5 +1,6 @@
-const { text } = require("express");
-const nodemailer=require("nodemailer")
+const nodemailer=require("nodemailer");
+const htmlToText=require("html-to-text");
+
 
 module.exports=class Email{
     constructor(user,url){
@@ -24,12 +25,15 @@ module.exports=class Email{
      }
 
      async send(template,subject){
-      
+       //some pending
+        const html=`<p style="color:black; font-size:20px;">Forgot your password? send a patch request to this url to reset your password-<a href=${this.url}>RESET PASSWORD🔁</a>.
+        </br>If you didnt forget ,please ignore this.</p></br>`
         const mailoptions={
             from:this.from,
             to:this.to,
             subject:subject,
-            text
+            html,
+            text:htmlToText(html),
         }
 
       await this.newTransport().sendMail(mailoptions);  

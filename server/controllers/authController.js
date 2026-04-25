@@ -6,6 +6,7 @@ const jwt=require("jsonwebtoken");
 const cookie=require("cookie-parser");
 const cookieParser = require("cookie-parser");
 const Email = require('../utils/Email');
+const crypto=require("crypto");
 
 const signToken=(id)=>{
     return jwt.sign({id:id},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRES_IN} );
@@ -51,7 +52,7 @@ exports.login=catchAsync(async(req,res,next)=>{
 
     const user=await User.findOne({email:email}).select('+password');
     
-    if(!user)return next(new AppError("Incorrect Email or Password",401));
+    if(!user||!await user.correctPassword(password, user.password))return next(new AppError("Incorrect Email or Password",401));
 
     //  console.log(user);
     //  console.log(res);
@@ -132,4 +133,34 @@ exports.forgotPassword=catchAsync(async(req,res,next)=>{
 
 })
 
+exports.resetPassword=catchAsync(async(req,res,next)=>{
+    const hashedToken=crypto.createHash('sha256').update(req.params.token).digest('hex');
+    
+    const user=await User.findOne({passwordResetToken:hashedToken,passwordResetExpires:{$gt:Date.now()}});
+    
+    if(!user)return next(new AppError("Invalid Token or Token Expired",400));
+    
+    user.password=req.body.password;
+    user.confirmPassword=req.body.confirmPassword;
+    user.passwordResetToken=undefined;
+    user.passwordResetExpires=undefined;
 
+    await user.save();
+    
+    createSendToken(user,200,res);
+})
+
+exports.updatePassword=catchAsync(async(req,res,next)=>{
+    const user=await User.findById(req.user.id).select('+password');
+
+    if(!user)return next(new AppError("There is no user with this Id",404));
+
+    if(!await user.correctPassword(req.body.passwordCurrent,user.password))return next(new AppError("Entered Password is Invalid",401));
+
+    user.password=req.body.password;
+    user.confirmPassword=req.body.confirmPassword;
+
+    await user.save();
+
+    createSendToken(user,200,res);
+})
