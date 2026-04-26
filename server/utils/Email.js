@@ -26,8 +26,9 @@ module.exports=class Email{
 
      async send(template,subject){
        //some pending
-        const html=`<p style="color:black; font-size:20px;">Forgot your password? send a patch request to this url to reset your password-<a href=${this.url}>RESET PASSWORD🔁</a>.
-        </br>If you didnt forget ,please ignore this.</p></br>`
+        const html=`<p style="color:black; font-size:20px;">Forgot your password? send a patch request to this url to reset your password-${this.url}.
+        </br>If you didnt forget ,please ignore this.</p></br>
+        <a href=${this.url}>RESET PASSWORD</a>.`
         const mailoptions={
             from:this.from,
             to:this.to,
