@@ -60,3 +60,24 @@ exports.deleteTask=catchAsync(async(req,res,next)=>{//only if the task has to de
     data:null
  })
 })
+
+exports.updateTask=catchAsync(async(req,res,next)=>{
+    const task=await Task.findByIdAndUpdate(req.params.id,req.body,{
+        new:true,
+        runValidators:true
+    });
+   
+    if(!task)return next(new AppError("No Task found with that ID",404)); 
+
+    if(!req.body.description&&req.body.title){
+        req.body.description=req.body.title;
+    }
+
+    res.status(200).json({
+        status:"success",
+        task
+    })
+
+})
+
+

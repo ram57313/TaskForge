@@ -9,7 +9,7 @@ router.route("/").get(taskController.getAllTasks);
 router.route("/:id").get(taskController.getTask);
 router.route("/deleteTask/:id").delete(taskController.deleteTask);
 router.route("/createTask").post(taskController.createTask);
-
+router.route("/updateTask/:id").patch(taskController.updateTask);
 
 
 module.exports=router;

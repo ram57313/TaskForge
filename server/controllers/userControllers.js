@@ -1,6 +1,19 @@
+const { timingSafeEqual } = require("crypto");
+const { findByIdAndUpdate } = require("../models/taskModel");
 const User=require("../models/userModel");
 const AppError=require("../utils/appError");
 const catchAsync=require("../utils/catchAsync");
+
+
+const filterObj=(obj,...allowedFields)=>{
+    const newobj={};
+    Object.keys(obj).forEach(el=>{
+        if(allowedFields.includes(el))newobj[el]=obj[el];
+    })
+
+    return newobj;
+}
+
 
 exports.getAllUsers=catchAsync(async (req,res,next)=>{
     const users=await User.find().select('-__v');
@@ -30,4 +43,22 @@ exports.getUser=catchAsync(async(req,res,next)=>{
 exports.getMe=(req,res,next)=>{
     req.params.id=req.user.id;
     next();
+}
+
+exports.updateMe=async(req,res,next)=>{
+    if(req.body.password||req.body.passwordConfirm){
+        return next(new AppError("Use UpdatePassword Route for updating your password",400));
+    }
+
+    const filteredBody=filterObj(req.body,'name','email');
+
+    const updatedUser=await User.findByIdAndUpdate(req.user._id,filteredBody,{
+        new:true,
+        runValidators:true
+    })
+    
+    res.status(200).json({
+        status:"success",
+        user:updatedUser
+    })
 }
