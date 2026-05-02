@@ -1,5 +1,5 @@
 const mongoose=require("mongoose");
-const brcypt=require("bcrypt");
+const bcrypt=require("bcrypt");
 const crypto=require("crypto");
 const catchAsync = require("../utils/catchAsync");
 
@@ -41,23 +41,50 @@ const userSchema=new mongoose.Schema({
     isGuest:{
         type:Boolean,
         default:false
-    }
-})
-userSchema.pre('save',async function(){
-    if(!this.isModified('password')) return ; 
-
-    if(!this.isGuest){
-        this.password=await brcypt.hash(this.password,12);
-        this.confirmPassword = undefined;
+    },
+    active:{
+        type:Boolean,
+        default:true,
+        // select:false
     }
 })
 
-userSchema.pre('save',function(next){
-    if(!this.isModified('password')||this.isNew)return next();
+// userSchema.pre('save', async function() {
+//     // hash password
+//     if (!this.isModified('password')) return;
 
-    this.passwordChangedAt=Date.now();
-   next();
-})
+//     if (!this.isGuest) {
+//         this.password = await bcrypt.hash(this.password, 12);
+//         this.confirmPassword = undefined;
+//     }
+
+//     // set passwordChangedAt
+//     if (!this.isNew) {
+//         this.passwordChangedAt = Date.now() - 1000;
+//     }
+// });
+
+userSchema.pre('save', async function () {
+  if (!this.isModified('password')) return ; 
+
+  
+  this.password = await bcrypt.hash(this.password, 12); 
+  this.confirmPassword = undefined; 
+
+//   next();
+});
+
+userSchema.pre('save', async function () {
+  if (!this.isModified('password') || this.isNew) return ;
+
+  this.passwordChangedAt = Date.now() - 1000; 
+//   next();
+}
+)
+userSchema.pre(/^find/, async function () {
+   this.find({ active: { $ne: false } });
+});
+
 
 userSchema.methods.createResetToken=function(){
     const resetToken=crypto.randomBytes(32).toString('hex');
@@ -68,7 +95,7 @@ userSchema.methods.createResetToken=function(){
 }
 
 userSchema.methods.correctPassword=async function(candidatePassowrd,userPassword){
-    return await brcypt.compare(candidatePassowrd,userPassword);
+    return await bcrypt.compare(candidatePassowrd,userPassword);
 }
 
 const User=mongoose.model('User',userSchema);

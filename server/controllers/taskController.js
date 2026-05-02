@@ -61,6 +61,7 @@ exports.deleteTask=catchAsync(async(req,res,next)=>{//only if the task has to de
  })
 })
 
+
 exports.updateTask=catchAsync(async(req,res,next)=>{
     const task=await Task.findByIdAndUpdate(req.params.id,req.body,{
         new:true,
@@ -79,5 +80,8 @@ exports.updateTask=catchAsync(async(req,res,next)=>{
     })
 
 })
+
+// exports.toggleStatus=(req,res,next)=>{} this should be operated through frontend
+
 
 

@@ -17,7 +17,7 @@ const filterObj=(obj,...allowedFields)=>{
 
 exports.getAllUsers=catchAsync(async (req,res,next)=>{
     const users=await User.find().select('-__v');
-    if(!users)return new AppError("something went wrong.Please try again",404);//most rare cases
+    if(!users)return next(new AppError("something went wrong.Please try again",404));//most rare cases
     res.status(200).json({
         status:"success",
         data:{
@@ -45,7 +45,7 @@ exports.getMe=(req,res,next)=>{
     next();
 }
 
-exports.updateMe=async(req,res,next)=>{
+exports.updateMe=catchAsync(async(req,res,next)=>{
     if(req.body.password||req.body.passwordConfirm){
         return next(new AppError("Use UpdatePassword Route for updating your password",400));
     }
@@ -61,4 +61,26 @@ exports.updateMe=async(req,res,next)=>{
         status:"success",
         user:updatedUser
     })
-}
+})
+
+/*exports.deleteMe=catchAsync(async(req,res,next)=>{
+    const user=await User.findByIdAndUpdate(req.user.id,{
+        active:false
+    })
+
+    res.status(204).json({
+        status:"success",
+        data:{
+            user:null
+        }
+    })
+})*/ //let it be like that 
+
+exports.deleteMe=catchAsync(async(req,res,next)=>{
+    const user=await User.findByIdAndDelete(req.user.id);
+
+    res.status(204).json({
+        status:"success", 
+        data:null
+    })
+})

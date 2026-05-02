@@ -15,6 +15,8 @@ router.route('/guest-login').post(authController.guestSignup);
 router.route('/login').post(authController.login);
 router.route('/logout').post(authController.logout);
 router.route('/updateMe').patch(authController.protect,userController.updateMe);
+router.route('/deleteMe').delete(authController.protect,userController.deleteMe);//permanent deletion for now
+
 router.route('/forgotPassword').post(authController.protect,authController.forgotPassword)
 router.route('/updatePassword').post(authController.protect,authController.updatePassword)
 router.patch('/resetPassword/:token', authController.resetPassword);
