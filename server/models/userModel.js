@@ -94,8 +94,8 @@ userSchema.methods.createResetToken=function(){
     return resetToken;
 }
 
-userSchema.methods.correctPassword=async function(candidatePassowrd,userPassword){
-    return await bcrypt.compare(candidatePassowrd,userPassword);
+userSchema.methods.correctPassword=async function(candidatePassword,userPassword){
+    return await bcrypt.compare(candidatePassword,userPassword);
 }
 
 const User=mongoose.model('User',userSchema);

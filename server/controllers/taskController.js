@@ -8,7 +8,8 @@ exports.createTask=catchAsync(async(req,res,next)=>{
         description:req.body.description,
         status:req.body.status,
         isDeleted:req.body.isDeleted,
-        category:req.body.category
+        category:req.body.category,
+        user:req.user._id
     })
 
     res.status(200).json({
@@ -30,6 +31,9 @@ exports.getAllTasks=catchAsync(async(req,res,next)=>{
 
         if(!req.query.isDeleted)filter.isDeleted=false;
 
+
+      filter.user=req.user._id;
+       
     const tasks=await Task.find(filter);
     if(!tasks)return next(new AppError("something went wrong,Please try again",404));
 
