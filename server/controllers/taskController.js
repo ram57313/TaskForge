@@ -54,7 +54,7 @@ exports.getTask=catchAsync(async(req,res,next)=>{
     })
 })
 
-exports.deleteTask=catchAsync(async(req,res,next)=>{//only if the task has to deleted completely
+exports.deleteTaskPermanent=catchAsync(async(req,res,next)=>{//only if the task has to deleted completely
  const task=await Task.findByIdAndDelete(req.params.id);
 
  if(!task)return next(new AppError("No Task with that ID",404));
@@ -63,6 +63,17 @@ exports.deleteTask=catchAsync(async(req,res,next)=>{//only if the task has to de
     status:"success",
     data:null
  })
+})
+
+exports.deleteTaskTemp=catchAsync(async(req,res,next)=>{
+    const task=await Task.findByIdAndUpdate(req.params.id,{
+        isDeleted:true
+    });
+
+    res.status(204).json({
+        status:"success",
+        message:"deleted temporarily"
+    })
 })
 
 
@@ -84,6 +95,12 @@ exports.updateTask=catchAsync(async(req,res,next)=>{
     })
 
 })
+
+
+
+
+
+
 
 // exports.toggleStatus=(req,res,next)=>{} this should be operated through frontend
 
