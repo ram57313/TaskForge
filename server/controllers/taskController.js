@@ -1,6 +1,7 @@
 const Task=require("../models/taskModel");
 const catchAsync=require("../utils/catchAsync");
 const AppError=require("../utils/appError");
+const Apifeatures=require("../utils/apiFeatures");
 
 exports.createTask=catchAsync(async(req,res,next)=>{
     const task=await Task.create({
@@ -34,7 +35,9 @@ exports.getAllTasks=catchAsync(async(req,res,next)=>{
 
       filter.user=req.user._id;
        
-    const tasks=await Task.find(filter);
+    const features=new Apifeatures(Task.find(filter),req.query).sort();
+
+    const tasks=await features.query;
     if(!tasks)return next(new AppError("something went wrong,Please try again",404));
 
     res.status(200).json({
