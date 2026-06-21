@@ -4,7 +4,7 @@ const htmlToText=require("html-to-text");
 
 module.exports=class Email{
     constructor(user,url){
-        this.to=user,
+        this.to=user.email,
         this.firstname=user.name.split(' ')[0]
         this.from=process.env.FROM,
         this.url=url
@@ -26,7 +26,7 @@ module.exports=class Email{
 
      async send(template,subject){
        //some pending
-        const html=`<p style="color:black; font-size:20px;">Forgot your password? send a patch request to this url to reset your password-${this.url}.
+        const html=`<p style="color:black;background-color:blue; font-size:20px;">Forgot your password? send a patch request to this url to reset your password-${this.url}.
         </br>If you didnt forget ,please ignore this.</p></br>
         <a href=${this.url}>RESET PASSWORD</a>.`
         const mailoptions={
@@ -34,17 +34,17 @@ module.exports=class Email{
             to:this.to,
             subject:subject,
             html,
-            text:htmlToText(html),
+            text:htmlToText.convert(html),
         }
 
       await this.newTransport().sendMail(mailoptions);  
      }
 
      async sendWelcome(){
-        await this.send('welcome',"Welcome to TaskForge Family");
-     }
-
-     async sendPasswordReset(){
+         await this.send('welcome',"Welcome to TaskForge Family");
+        }
+        
+        async sendPasswordReset(){
         await this.send('password','Your password Reset Token(valid for short time only)')
      }
 
