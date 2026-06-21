@@ -24,6 +24,11 @@ const createSendToken=(user,statusCode,res)=>{
     res.cookie('jwt',token,cookieOptions);
 
     user.password=undefined;
+    try{
+        new Email(user).sendWelcome();
+    }catch(err){
+        console.error("something went wrong in sending the email",err);
+    }
     res.status(statusCode).json({
         status:"success",
         token,
@@ -42,6 +47,7 @@ exports.signup=catchAsync(async(req,res,next)=>{
     //    const user=await User.findById(newuser._id).select('-password')
 
      createSendToken(newuser,200,res);
+
     
 });
 
