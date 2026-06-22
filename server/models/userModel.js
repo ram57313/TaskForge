@@ -32,7 +32,7 @@ const userSchema=new mongoose.Schema({
     },
     createdAt:{
         type:Date,
-        default:Date.now(),
+        default:new Date(),
         select:false
     },
     passwordResetToken:String,
@@ -46,11 +46,16 @@ const userSchema=new mongoose.Schema({
         type:Boolean,
         default:true,
         // select:false
+    },
+    deletedAt:{
+        type:Date,
+        default:null
     }
 })
 
+
 // userSchema.pre('save', async function() {
-//     // hash password
+    //     // hash password
 //     if (!this.isModified('password')) return;
 
 //     if (!this.isGuest) {
@@ -60,29 +65,29 @@ const userSchema=new mongoose.Schema({
 
 //     // set passwordChangedAt
 //     if (!this.isNew) {
-//         this.passwordChangedAt = Date.now() - 1000;
+    //         this.passwordChangedAt = Date.now() - 1000;
 //     }
 // });
 
 userSchema.pre('save', async function () {
-  if (!this.isModified('password')) return ; 
-
-  
-  this.password = await bcrypt.hash(this.password, 12); 
-  this.confirmPassword = undefined; 
-
-//   next();
+    if (!this.isModified('password')) return ; 
+    
+    
+    this.password = await bcrypt.hash(this.password, 12); 
+    this.confirmPassword = undefined; 
+    
+    //   next();
 });
 
 userSchema.pre('save', async function () {
-  if (!this.isModified('password') || this.isNew) return ;
-
-  this.passwordChangedAt = Date.now() - 1000; 
-//   next();
+    if (!this.isModified('password') || this.isNew) return ;
+    
+    this.passwordChangedAt = Date.now() - 1000; 
+    //   next();
 }
 )
 userSchema.pre(/^find/, async function () {
-   this.find({ active: { $ne: false } });
+    this.find({ active: { $ne: false } });
 });
 
 
@@ -97,6 +102,11 @@ userSchema.methods.createResetToken=function(){
 userSchema.methods.correctPassword=async function(candidatePassword,userPassword){
     return await bcrypt.compare(candidatePassword,userPassword);
 }
+
+userSchema.index(
+    {deletedAt:1},
+    {expireAfterSeconds:60}
+)
 
 const User=mongoose.model('User',userSchema);
 module.exports=User;

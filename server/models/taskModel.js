@@ -28,11 +28,20 @@ const taskSchema=new mongoose.Schema({
         type:Boolean,
         default:false
     },
+    deletedAt:{
+        type:Date,
+        default:null
+    },
     user:{
         type:mongoose.Schema.ObjectId,
         ref:'User'
     }
 })
+
+taskSchema.index(
+   {deletedAt:1},
+   {expireAfterSeconds:30*24*60*60}
+)
 
 taskSchema.pre('save',function(){//this runs for only save or create
     if(!this.description){

@@ -24,11 +24,7 @@ const createSendToken=(user,statusCode,res)=>{
     res.cookie('jwt',token,cookieOptions);
 
     user.password=undefined;
-    try{
-        new Email(user).sendWelcome();
-    }catch(err){
-        console.error("something went wrong in sending the email",err);
-    }
+    
     res.status(statusCode).json({
         status:"success",
         token,
@@ -46,6 +42,11 @@ exports.signup=catchAsync(async(req,res,next)=>{
        });
     //    const user=await User.findById(newuser._id).select('-password')
 
+    try{
+       new Email(newuser).sendWelcome();
+   }catch(err){
+       console.error("something went wrong in sending the email",err);
+   }
      createSendToken(newuser,200,res);
 
     
@@ -77,6 +78,7 @@ exports.logout=(req,res,next)=>{
         "message":"logged out succesfully"
     })
 }
+
 exports.guestSignup=catchAsync(async(req,res,next)=>{
     const guestUser=await User.create({
         name:`guest${Date.now()}`,

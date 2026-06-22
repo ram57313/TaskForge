@@ -38,6 +38,7 @@ exports.getAllTasks=catchAsync(async(req,res,next)=>{
     const features=new Apifeatures(Task.find(filter),req.query).sort();
 
     const tasks=await features.query;
+
     if(!tasks)return next(new AppError("something went wrong,Please try again",404));
 
     res.status(200).json({
@@ -70,7 +71,8 @@ exports.deleteTaskPermanent=catchAsync(async(req,res,next)=>{//only if the task 
 
 exports.deleteTaskTemp=catchAsync(async(req,res,next)=>{
     const task=await Task.findByIdAndUpdate(req.params.id,{
-        isDeleted:true
+        isDeleted:true,
+        deletedAt:new Date()
     });
 
     res.status(204).json({
@@ -99,6 +101,8 @@ exports.updateTask=catchAsync(async(req,res,next)=>{
 
 })
 
+
+//has to implement a feature which will reset the attribute of deletedAt and isDeleted ,so that the userr can restore the task or his own account
 
 
 

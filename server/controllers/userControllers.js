@@ -61,24 +61,26 @@ exports.updateMe=catchAsync(async(req,res,next)=>{
     })
 })
 
-/*exports.deleteMe=catchAsync(async(req,res,next)=>{
+exports.deleteMe=catchAsync(async(req,res,next)=>{
     const user=await User.findByIdAndUpdate(req.user.id,{
-        active:false
+        active:false,
+        deletedAt:new Date()
     })
 
     res.status(204).json({
         status:"success",
+        message:"deleted Temporarily",
         data:{
             user:null
         }
     })
-})*/ //let it be like that 
+})//let it be like that 
 
-exports.deleteMe=catchAsync(async(req,res,next)=>{
-    const user=await User.findByIdAndDelete(req.user.id);
+// exports.deleteMe=catchAsync(async(req,res,next)=>{
+//     const user=await User.findByIdAndDelete(req.user.id);
 
-    res.status(204).json({
-        status:"success", 
-        data:null
-    })
-})
+//     res.status(204).json({
+//         status:"success", 
+//         data:null
+//     })
+// })
