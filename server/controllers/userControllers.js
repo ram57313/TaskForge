@@ -1,6 +1,7 @@
 const User=require("../models/userModel");
 const AppError=require("../utils/appError");
 const catchAsync=require("../utils/catchAsync");
+const cookie=require("cookie-parser");
 
 
 const filterObj=(obj,...allowedFields)=>{
@@ -67,6 +68,8 @@ exports.deleteMe=catchAsync(async(req,res,next)=>{
         deletedAt:new Date()
     })
 
+    res.clearCookie('jwt');
+
     res.status(204).json({
         status:"success",
         message:"deleted Temporarily",
@@ -74,7 +77,7 @@ exports.deleteMe=catchAsync(async(req,res,next)=>{
             user:null
         }
     })
-})//let it be like that 
+})
 
 // exports.deleteMe=catchAsync(async(req,res,next)=>{
 //     const user=await User.findByIdAndDelete(req.user.id);
@@ -84,3 +87,19 @@ exports.deleteMe=catchAsync(async(req,res,next)=>{
 //         data:null
 //     })
 // })
+
+exports.restoreUser=catchAsync(async(req,res,next)=>{
+    const user=await User.findByIdAndUpdate(req.params.id,{
+        active:true,
+        deletedAt:null
+    },{new:true})
+    console.log(user);
+    if(!user)return next(new AppError("no user with that Id",404));
+
+    res.status(200).json({
+        status:"sucess",
+        message:"welcome back",
+        user
+    })
+
+})

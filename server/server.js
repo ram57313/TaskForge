@@ -10,6 +10,6 @@ mongoose.connect(DB).then(connection=>{
     console.log('DB Connection successfull'); 
 })
 const server=app.listen(port,()=>{
-    console.log("app is on live");
+    console.log(`app is on live in ${process.env.NODE_ENV} mode`);
 })
 

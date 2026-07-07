@@ -3,7 +3,18 @@ const catchAsync=require("../utils/catchAsync");
 const AppError=require("../utils/appError");
 const Apifeatures=require("../utils/apiFeatures");
 
-exports.createTask=catchAsync(async(req,res,next)=>{
+
+
+const filteredObj=(obj,...allowedFields)=>{
+        const newObj={};
+        Object.keys(obj).forEach(el=>{
+            if(allowedFields.includes(el))newObj[el]=obj[el];
+        })
+        return newObj;
+    }
+
+
+exports.createTask=catchAsync(async(req,res,next)=>{ 
     const task=await Task.create({
         title:req.body.title,
         description:req.body.description,
@@ -74,6 +85,8 @@ exports.deleteTaskTemp=catchAsync(async(req,res,next)=>{
         isDeleted:true,
         deletedAt:new Date()
     });
+    console.log(task);
+  if(!task)return next(new AppError("no Task is Found",404));
 
     res.status(204).json({
         status:"success",
@@ -83,7 +96,11 @@ exports.deleteTaskTemp=catchAsync(async(req,res,next)=>{
 
 
 exports.updateTask=catchAsync(async(req,res,next)=>{
-    const task=await Task.findByIdAndUpdate(req.params.id,req.body,{
+    if(req.body.deletedAt||req.body.isDeleted)return next(new AppError("You cant update the restricted fields",400))//also think of about access to changing of status
+    
+    const filteredBody=filteredObj(req.body,"title","category","description")
+    
+    const task=await Task.findByIdAndUpdate(req.params.id,filteredBody,{
         new:true,
         runValidators:true
     });
@@ -103,7 +120,21 @@ exports.updateTask=catchAsync(async(req,res,next)=>{
 
 
 //has to implement a feature which will reset the attribute of deletedAt and isDeleted ,so that the userr can restore the task or his own account
+exports.restoreTask=catchAsync(async(req,res,next)=>{
+    const task=await Task.findByIdAndUpdate(req.params.id,{
+        isDeleted:false,
+        deletedAt:null
+    },{new:true})
 
+    if(!task)return next(new AppError("no Task with that Id",404));
+
+    res.status(200).json({
+        status:"sucess",
+        message:"Task restored succesfully",
+        task
+    })
+
+})
 
 
 

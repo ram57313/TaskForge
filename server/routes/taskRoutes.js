@@ -7,8 +7,9 @@ router.use(authController.protect);
 
 router.route("/").get(taskController.getAllTasks);
 router.route("/:id").get(taskController.getTask);
-router.route("/deleteTask/:id").delete(taskController.deleteTaskPermanent);
-router.route("/archiveTask/:id").patch(taskController.deleteTaskTemp);
+// router.route("/deleteTask/:id").delete(taskController.deleteTaskPermanent);
+router.route("/deleteTask/:id").patch(taskController.deleteTaskTemp);
+router.route("/restoreTask/:id").patch(taskController.restoreTask);
 router.route("/createTask").post(taskController.createTask);
 router.route("/updateTask/:id").patch(taskController.updateTask);
 

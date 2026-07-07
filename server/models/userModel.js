@@ -86,9 +86,10 @@ userSchema.pre('save', async function () {
     //   next();
 }
 )
-userSchema.pre(/^find/, async function () {
-    this.find({ active: { $ne: false } });
-});
+
+// userSchema.pre(/^find/, async function () {
+//     this.find({ active: { $ne: false } });
+// });
 
 
 userSchema.methods.createResetToken=function(){
@@ -104,8 +105,17 @@ userSchema.methods.correctPassword=async function(candidatePassword,userPassword
 }
 
 userSchema.index(
-    {deletedAt:1},
+    {deletedAt:1}, 
     {expireAfterSeconds:60}
+)
+
+userSchema.index(
+    {createdAt:1},
+    {expireAfterSeconds:60,
+        partialFilterExpression:{
+            isGuest:true
+        }
+    }
 )
 
 const User=mongoose.model('User',userSchema);

@@ -75,7 +75,7 @@ exports.logout=(req,res,next)=>{
     // console.log(res.cookie());
     res.status(200).json({
         status:"success",
-        "message":"logged out succesfully"
+        message:"logged out succesfully"
     })
 }
 
@@ -85,11 +85,13 @@ exports.guestSignup=catchAsync(async(req,res,next)=>{
         email:`guest${Date.now()}@demo.com`,
         password:"guest1234",
         confirmPassword:"guest1234",
-        isGuest:true
+        isGuest:true,
+
     });
     
     res.status(200).json({
         status:"success",
+        message:"guest users only has access for 24 hours,signup for permanent access",
         guestUser
     })
 })
@@ -103,7 +105,7 @@ exports.protect=catchAsync(async(req,res,next)=>{
     }
 
     if(!token)return next(new AppError('you are not logged in ,Please login',401));
-    console.log(token);
+    // console.log(token);
 
      const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 

@@ -38,16 +38,18 @@ const taskSchema=new mongoose.Schema({
     }
 })
 
-taskSchema.index(
-   {deletedAt:1},
-   {expireAfterSeconds:30*24*60*60}
-)
 
 taskSchema.pre('save',function(){//this runs for only save or create
     if(!this.description){
         this.description=this.title
     }
 })
+
+taskSchema.index(
+   {deletedAt:1},
+   {expireAfterSeconds:60}
+)
+
 
 const Task=mongoose.model('Task',taskSchema);
 
