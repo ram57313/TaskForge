@@ -26,29 +26,55 @@ const handleValidationErrorDB=(err)=>{
 }
 
 const sendErrorDev=(err,req,res)=>{
-
-    res.status(err.statusCode).json({
-        status:err.status,
-        message:err.message,
-        stack:err.stack,
-        error:err
-    });
+    console.log("development");
+  if(req.originalUrl.startsWith('/api')){
+      return res.status(err.statusCode).json({
+          status:err.status,
+          message:err.message,
+          stack:err.stack,
+          error:err
+      });
+  }
+  console.error("ERROR 🔴",err);
+  return res.status(res.statusCode).json('error',{
+   title:'Something went wrong',
+   msg:err.message
+  })
 }
 
 const sendErrorProd=(err,req,res)=>{
-    if(err.isOperational){
-        console.log("production operational");
-        res.status(err.statusCode).json({
-            title:"something went wrong",
-            message:err.message
-        })
-    }else{
-    console.log("non operational");
-    res.status(500).json({
-        status:"error",
-        message:"something went wrong"
-    })
-}
+    if(req.originalUrl.startsWith('/api')){
+
+        if(err.isOperational){
+            console.log("production operational");
+            res.status(err.statusCode).json({
+                title:"something went wrong",
+                message:err.message
+            })
+        }
+        else{
+            console.log("non operational");
+            res.status(500).json({
+                status:"error",
+                message:"something went wrong"
+            })
+        }
+    }
+
+    if (err.isOperational) {//if it is a trusted error 
+      console.log('operational production');
+      return res.status(err.statusCode).json('error',{
+        title:'Something Went Wrong',
+        msg: err.message,
+      });
+    } 
+      console.error('Error 🔴', err); //=>for developer
+      console.log('non operational');
+      return res.status(500).json('error',{
+        //=>for client
+        title: 'Something Went Wrong',
+        msg: 'Please Try Again Later',
+      });
 }
 
 module.exports=(err,req,res,next)=>{
