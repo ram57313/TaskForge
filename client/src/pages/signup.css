@@ -1,0 +1,107 @@
+.signupPage {
+  position: relative;
+  min-height: 60vh;
+}
+
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+.signupCard {
+  backdrop-filter:blur(5px);
+  width: 300px;
+  margin: 220px auto;
+  padding: 20px;
+  padding-left:10px;
+  padding-right:0px;
+  /* background: rgba(38, 6, 125, 0.166); */
+  border-radius: 12px;
+}
+
+.inputs input {
+  display: flex;
+  width: 95%;
+  margin-top: 1px;
+  padding: 5px;
+  border-radius:5px;
+  background: rgba(255, 255, 255, 0.15);
+  color:white;
+  padding-left:2px;
+  outline: none;
+  border-width:0px;
+}
+
+
+.inputs input:hover{
+  outline: none;
+  border: 2px solid rgb(21, 217, 168);
+}
+
+.username,.email,.passwordText{
+  margin-bottom: 0px;
+  color: rgba(14, 224, 228, 0.956);
+}
+
+.signup{
+  color: rgb(183, 62, 62);
+  text-align: center;
+  font-size:20px;
+  margin-bottom:40px;
+  margin-top:0px;
+}
+
+.buttonBox{
+  margin-top:20px;
+ text-align: center;
+}
+
+#button{
+  background: rgba(255, 255, 255, 0.15);
+  color:white;
+  width:100px;
+  font-size: 15px;
+  border-radius:7px;
+  transition: background-color 0.3s ease-in-out,
+  font-size 0.2s ease-in-out;
+  /* transform: 0.2s linear; */
+  border-width: 0px;
+}
+
+#button:hover{
+  color:rgb(30, 186, 139);
+  outline: none;
+  border-color:rgb(21, 217, 168);
+  font-size:17px;
+  cursor: pointer;
+}
+
+
+.passwordBox {
+  position: relative;
+  width: 100%;
+}
+
+.passwordBox input {
+  width: 83%;
+  padding-right: 40px; /* space for eye icon */
+}
+
+.passwordBox span {
+  position: absolute;
+  right: 12px;
+  top: 73%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  padding-left: 10px;
+  color:rgba(20, 42, 42, 0.926)
+}
+
+#bottom{
+  padding-left: 40px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  font-size:15px;
+  color:rgba(198, 208, 195, 0.811);
+}
