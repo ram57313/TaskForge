@@ -1,13 +1,11 @@
 .signupPage {
   position: relative;
-  min-height: 60vh;
+  min-height: 100vh;
+  width:100%;
+  z-index: 1;
+  overflow: hidden;
 }
 
-.background {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-}
 
 .signupCard {
   backdrop-filter:blur(5px);
@@ -16,6 +14,8 @@
   padding: 20px;
   padding-left:10px;
   padding-right:0px;
+  position:relative;
+  z-index:1;
   /* background: rgba(38, 6, 125, 0.166); */
   border-radius: 12px;
 }
@@ -104,4 +104,8 @@
   margin-bottom: 0px;
   font-size:15px;
   color:rgba(198, 208, 195, 0.811);
+}
+
+#login:hover{
+  font-size: 16px;
 }

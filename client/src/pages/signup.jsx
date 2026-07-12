@@ -1,7 +1,7 @@
 import { useState } from "react"
 
-import Hyperspeed from "../components/hyperspeed/hyperspeed"
-import { hyperspeedPresets } from "../components/hyperspeed/HyperSpeedPresets"
+// import Hyperspeed from "../components/hyperspeed/hyperspeed"
+// import { hyperspeedPresets } from "../components/hyperspeed/HyperSpeedPresets"
 import "./signup.css"
 import {FaEye,FaEyeSlash} from "react-icons/fa"
 import {NavLink} from "react-router-dom"
@@ -18,9 +18,6 @@ export default function Signup(){
 
     return (
         <div className="signupPage">
-            <div className="background">
-               <Hyperspeed effectOptions={hyperspeedPresets.four}/>
-            </div>
 
             <div className="signupCard">
                 <h3 className="signup">SIGNUP</h3>
@@ -57,7 +54,7 @@ export default function Signup(){
                 <div className="buttonBox">
                     <NavLink to="/dashboard"><button id="button" onSubmit={()=>signin()}>SignIn</button></NavLink>
                 </div>
-                <p id="bottom">Already have an account?<NavLink to="/login">Login</NavLink></p>
+                <p id="bottom">Already have an account?<NavLink to="/login" ><span id="login">Login</span></NavLink></p>
             </div>
         </div>
     )
