@@ -47,14 +47,14 @@ const sendErrorProd=(err,req,res)=>{
 
         if(err.isOperational){
             console.log("production operational");
-            res.status(err.statusCode).json({
+           return  res.status(err.statusCode).json({
                 title:"something went wrong",
                 message:err.message
             })
         }
         else{
             console.log("non operational");
-            res.status(500).json({
+           return res.status(500).json({
                 status:"error",
                 message:"something went wrong"
             })

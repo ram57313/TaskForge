@@ -13,7 +13,9 @@ module.exports=class Email{
 
 
      newTransport(){
-        // if(process.env.NODE_ENV==='production')return 1; use brevo for production
+        // if(process.env.NODE_ENV==='production'){
+          
+        // }
 
         return nodemailer.createTransport({
             host:process.env.HOST,

@@ -59,25 +59,37 @@ exports.login=catchAsync(async(req,res,next)=>{
 
     const user=await User.findOne({email:email}).select('+password');
     
-    if(!user||!await user.correctPassword(password, user.password))
+    if(!user){
+        return next(new AppError("The user no longer exists",401));
+    }
+    if(!user.active){
+        return next(new AppError("Account deletd.Restore your account to continue"));
+    }
+    if(!await user.correctPassword(password, user.password))
         {
-            console.log(user);
+            // console.log(user);
+
             return next(new AppError("Incorrect Email or Password",401));
         }
 
     //  console.log(user);
     //  console.log(res);
 
+
      createSendToken(user,200,res);
 })
-exports.logout=(req,res,next)=>{
-    res.clearCookie('jwt');
-    // console.log(res.cookie());
-    res.status(200).json({
-        status:"success",
-        message:"logged out succesfully"
-    })
-}
+exports.logout=catchAsync(async(req,res,next)=>{
+    
+        res.clearCookie('jwt');
+    
+        res.status(204).json({
+            status:"success",
+            message:"Logged Out Successfully",
+            data:{
+                user:null
+            }
+        })
+})
 
 exports.guestSignup=catchAsync(async(req,res,next)=>{
     const guestUser=await User.create({
@@ -148,10 +160,10 @@ exports.forgotPassword=catchAsync(async(req,res,next)=>{
 })
 
 exports.resetPassword=catchAsync(async(req,res,next)=>{
-    const hashedToken=crypto.createHash('sha256').update(req.params.token).digest('hex');
-    
+    const hashedToken=crypto.createHash('sha256').update(req.params.token).digest('hex'); 
+     
     const user=await User.findOne({passwordResetToken:hashedToken,passwordResetExpires:{$gt:Date.now()}});
-    
+    // console.log(user);
     if(!user)return next(new AppError("Invalid Token or Token Expired",400));
     
     user.password=req.body.password;

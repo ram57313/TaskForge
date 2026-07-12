@@ -62,7 +62,7 @@ exports.updateMe=catchAsync(async(req,res,next)=>{
     })
 })
 
-exports.deleteMe=catchAsync(async(req,res,next)=>{
+exports.deleteMe=catchAsync(async(req,res,next)=>{//this should be there as there is  difference between logout and deleting account
     const user=await User.findByIdAndUpdate(req.user.id,{
         active:false,
         deletedAt:new Date()
@@ -88,13 +88,19 @@ exports.deleteMe=catchAsync(async(req,res,next)=>{
 //     })
 // })
 
-exports.restoreUser=catchAsync(async(req,res,next)=>{
-    const user=await User.findByIdAndUpdate(req.params.id,{
-        active:true,
-        deletedAt:null
-    },{new:true})
+exports.restoreUser=catchAsync(async(req,res,next)=>{//this is not required actually bcoz this is looked after by login
+    const {email,password}=req.body;
+    const user=await User.findOne({email:req.body.email}).select('+password');
+    user.active=true;
+    user.deletedAt=null;
+     if(!await user.correctPassword(password, user.password))
+        {
+            return next(new AppError("Incorrect Email or Password",401));
+        }
+    await user.save({validateBeforeSave:false});
     console.log(user);
     if(!user)return next(new AppError("no user with that Id",404));
+    user.password=undefined;//not letting it to come in response
 
     res.status(200).json({
         status:"sucess",

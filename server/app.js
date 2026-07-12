@@ -7,8 +7,8 @@ const globalErrorHandler=require("./controllers/errorController");
 const cookieParser = require("cookie-parser");
 const ratelimit=require('express-rate-limit')
 const helmet=require('helmet');
-const mongoSanitize=require("express-mongo-sanitize");
-const xss=require("xss-clean")
+// const mongoSanitize=require("express-mongo-sanitize");
+// const xss=require("xss-clean")
 const hpp=require("hpp");
 
 
@@ -35,7 +35,26 @@ app.use('/api',limiter);
 app.use(express.json({limit:'10kb'}));//body greater than 10kb is not accepted
 
 //Data sanitization against NOSQL injection
-// app.use(mongoSanitize())// it looks at req.body and req.params and req query string and remove the dollar signs or harmful ones
+// const sanitize = (obj) => {// it looks at req.body and req.params and req query string and remove the dollar signs or harmful ones
+//   if (!obj || typeof obj !== 'object') return obj;
+
+//   for (const key of Object.keys(obj)) {
+//     if (key.startsWith('$') || key.includes('.')) {
+//       delete obj[key];
+//     } else {
+//       sanitize(obj[key]);
+//     }
+//   }
+
+//   return obj;
+// };
+
+// app.use((req, res, next) => {
+//   sanitize(req.body);
+//   sanitize(req.params);
+//   sanitize(req.query);
+//   next();
+// });
 
 //Data sanitization against XSS
 // app.use(xss()); //eliminate malicious html code 
