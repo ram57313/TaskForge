@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Signup from "./pages/signup";
 // import Login from "./pages/login";
 
-import Header from "./components/logo";
+import Header from "./components/logo/logo";
 import AuthLayout from "./components/trials/authLayout";
 import { lazy, Suspense } from "react";
 import Plasma from "./components/plasma/Plasma";

@@ -1,0 +1,15 @@
+.main{
+    position:relative;
+    width:100%;
+    min-height: 100vh;
+    overflow: hidden;
+     z-index:1000;
+     top:350px;
+     left:720px;
+
+}
+
+.text{
+   color: red;
+
+}

@@ -42,7 +42,11 @@ exports.getAllTasks=catchAsync(async(req,res,next)=>{
         else if(req.query.isDeleted==='false')filter.isDeleted=false;
 
         if(!req.query.isDeleted)filter.isDeleted=false;
-
+         
+        if(req.query.status)filter.status=true;
+        else {
+            filter.status=false;//only those tasks which are not finished
+        }
 
       filter.user=req.user._id;
        
@@ -86,7 +90,7 @@ exports.deleteTaskTemp=catchAsync(async(req,res,next)=>{
         deletedAt:new Date()
     });
     console.log(task);
-  if(!task)return next(new AppError("no Task is Found",404));
+  if(!task)return next(new AppError("no Task is Found",404));//this is not needed actually
 
     res.status(204).json({
         status:"success",
@@ -140,7 +144,18 @@ exports.restoreTask=catchAsync(async(req,res,next)=>{
 
 
 
-// exports.toggleStatus=(req,res,next)=>{} this should be operated through frontend
+exports.toggleStatusOfTask=catchAsync(async(req,res,next)=> {//if finished,u can click it to mark it as finished,if u want to undo it ,u can toggle
+
+    const task=await Task.findById(req.params.id);
+    task.status=!task.status;
+    task.save();
+
+    res.status(200).json({
+        status:"success",
+        message:"status toggled successfully",
+        task
+    })
+});
 
 
 

@@ -12,6 +12,6 @@ router.route("/deleteTask/:id").patch(taskController.deleteTaskTemp);
 router.route("/restoreTask/:id").patch(taskController.restoreTask);
 router.route("/createTask").post(taskController.createTask);
 router.route("/updateTask/:id").patch(taskController.updateTask);
-
+router.route("/toggleStatus/:id").patch(taskController.toggleStatusOfTask);
 
 module.exports=router;
