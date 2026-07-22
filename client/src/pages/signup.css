@@ -1,20 +1,25 @@
-.signupPage {
+/* .signupPage {
   position: relative;
   min-height: 100vh;
   width:100%;
   z-index: 1;
   overflow: hidden;
-}
+} */
 
 
 .signupCard {
+   position: relative;
+  width:100%;
+  z-index: 1;
+  overflow: hidden;
   backdrop-filter:blur(5px);
   width: 300px;
-  margin: 220px auto;
+  top:220px;
+  left:550px;
   padding: 20px;
   padding-left:10px;
   padding-right:0px;
-  position:relative;
+  position:relative; 
   z-index:1;
   /* background: rgba(38, 6, 125, 0.166); */
   border-radius: 12px;

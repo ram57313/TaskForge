@@ -7,6 +7,7 @@ const globalErrorHandler=require("./controllers/errorController");
 const cookieParser = require("cookie-parser");
 const ratelimit=require('express-rate-limit')
 const helmet=require('helmet');
+const cors=require("cors");
 // const mongoSanitize=require("express-mongo-sanitize");
 // const xss=require("xss-clean")
 const hpp=require("hpp");
@@ -16,6 +17,7 @@ app.use(helmet({
     contentSecurityPolicy:'false'
 }))
 
+app.use(cors());
 app.use(cookieParser());
 
 if(process.env.NODE_ENV=='development'){

@@ -1,15 +1,87 @@
-.main{
-    position:relative;
-    width:100%;
-    min-height: 100vh;
-    overflow: hidden;
+.maindiv{
+     position: fixed;
      z-index:1000;
-     top:350px;
-     left:720px;
+      top: 72px;
+     left: 0;
+     right: 0;
+
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    transition: grid-template-columns 0.1s ease;
+    min-height: 100vh;
+}
+
+.sidebar{
+  background:rgba(0, 0, 0, 0.326);
+  /* margin-left: 100px; */
 
 }
 
-.text{
-   color: red;
+.taskcards{
+  /* background: rgba(38, 6, 125, 0.166); */
+  width: 100%;
+  background-color: red;
 
+  /* backdrop-filter:blur(10px); */
+
+}
+
+#toggler {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 12px;
+
+    background: rgba(20, 20, 29, 0.85);
+    color: white;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(10px);
+
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#toggler:hover {
+    background: rgba(78, 78, 89, 0.95);
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(42, 42, 170, 0.35);
+}
+
+#toggler:active {
+    transform: scale(0.95);
+}
+
+#toggler-box {
+    padding-top: 12px;
+    display: flex;
+    justify-content: center;
+}
+
+.maindiv-expanded{
+   position: fixed;
+     z-index:1000;
+      top: 72px;
+     left: 0;
+     right: 0;
+
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    transition: grid-template-columns 0.3s ease;
+    min-height: 100vh;
+}
+
+.maindiv-expanded #toggler-box{
+       justify-content: flex-start;
+    padding-left: 12px;
 }

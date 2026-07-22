@@ -7,7 +7,7 @@ import {FaEye,FaEyeSlash} from "react-icons/fa"
 import {NavLink} from "react-router-dom"
 
 function signin(){
-
+ 
 }
 
 export default function Signup(){
@@ -17,7 +17,7 @@ export default function Signup(){
     const [password,setPassword]=useState("");
 
     return (
-        <div className="signupPage">
+        // <div className="signupPage">
 
             <div className="signupCard">
                 <h3 className="signup">SIGNUP</h3>
@@ -56,6 +56,6 @@ export default function Signup(){
                 </div>
                 <p id="bottom">Already have an account?<NavLink to="/login" ><span id="login">Login</span></NavLink></p>
             </div>
-        </div>
+        // </div>
     )
 }

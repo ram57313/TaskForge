@@ -7,10 +7,10 @@ export default function MainLayout() {
         <div style={{ width: "100%", height: "600px", position: "fixed"}}>
           <Plasma
             color="#396e78"
-            speed={0.79}
+            speed={1}
             direction="forward"
-            scale={3}
-            opacity={0.35}
+            scale={10}
+            opacity={1}
             mouseInteractive={false}
           />
         </div>
