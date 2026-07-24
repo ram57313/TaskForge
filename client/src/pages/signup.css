@@ -1,116 +1,207 @@
-/* .signupPage {
-  position: relative;
-  min-height: 100vh;
-  width:100%;
-  z-index: 1;
-  overflow: hidden;
-} */
+@import "./login.css";
 
+.signup-page{
 
-.signupCard {
-   position: relative;
-  width:100%;
-  z-index: 1;
-  overflow: hidden;
-  backdrop-filter:blur(5px);
-  width: 300px;
-  top:220px;
-  left:550px;
-  padding: 20px;
-  padding-left:10px;
-  padding-right:0px;
-  position:relative; 
-  z-index:1;
-  /* background: rgba(38, 6, 125, 0.166); */
-  border-radius: 12px;
+    min-height:100vh;
+
+    display:grid;
+
+    grid-template-columns:1fr 450px;
+
+    align-items:center;
+
+    padding:5% 8%;
+
+    gap:70px;
 }
 
-.inputs input {
-  display: flex;
-  width: 95%;
-  margin-top: 1px;
-  padding: 5px;
-  border-radius:5px;
-  background: rgba(255, 255, 255, 0.15);
-  color:white;
-  padding-left:2px;
-  outline: none;
-  border-width:0px;
+.signup-left h1{
+
+    font-size:clamp(3rem,6vw,5rem);
+
+    margin-bottom:25px;
+
+    line-height:1.1;
+}
+
+.signup-left p{
+
+    font-size:1.1rem;
+
+    color:#cbd5e1;
+
+    max-width:550px;
+
+    line-height:1.8;
+}
+
+.signup-card{
+
+    background:rgba(18,25,48,.78);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:24px;
+
+    padding:40px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+.signup-card h2{
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+    font-size:2rem;
+}
+
+.signup-btn{
+
+    width:100%;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:16px;
+
+    font-size:1rem;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    color:white;
+
+    background:#2563eb;
+
+    transition:.3s;
+}
+
+.signup-btn:hover{
+
+    transform:translateY(-3px);
+
+    background:#1d4ed8;
+}
+
+.login-text{
+
+    text-align:center;
+
+    margin-top:25px;
+
+    color:#cbd5e1;
+}
+
+.login-text a{
+
+    color:#60a5fa;
+
+    text-decoration:none;
+
+    font-weight:600;
+}
+
+.login-text a:hover{
+
+    text-decoration:underline;
 }
 
 
-.inputs input:hover{
-  outline: none;
-  border: 2px solid rgb(21, 217, 168);
+
+@media(max-width:900px){
+
+.signup-page{
+
+    grid-template-columns:1fr;
+
+    padding:40px 20px;
 }
 
-.username,.email,.passwordText{
-  margin-bottom: 0px;
-  color: rgba(14, 224, 228, 0.956);
+.signup-left{
+
+    text-align:center;
 }
 
-.signup{
-  color: rgb(183, 62, 62);
-  text-align: center;
-  font-size:20px;
-  margin-bottom:40px;
-  margin-top:0px;
+.signup-left p{
+
+    margin:auto;
 }
 
-.buttonBox{
-  margin-top:20px;
- text-align: center;
+.signup-card{
+
+    max-width:450px;
+
+    width:100%;
+
+    margin:auto;
 }
 
-#button{
-  background: rgba(255, 255, 255, 0.15);
-  color:white;
-  width:100px;
-  font-size: 15px;
-  border-radius:7px;
-  transition: background-color 0.3s ease-in-out,
-  font-size 0.2s ease-in-out;
-  /* transform: 0.2s linear; */
-  border-width: 0px;
 }
 
-#button:hover{
-  color:rgb(30, 186, 139);
-  outline: none;
-  border-color:rgb(21, 217, 168);
-  font-size:17px;
-  cursor: pointer;
+.divider{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin:25px 0;
 }
 
+.divider::before,
+.divider::after{
 
-.passwordBox {
-  position: relative;
-  width: 100%;
+    content:"";
+
+    flex:1;
+
+    height:1px;
+
+    background:rgba(255,255,255,.15);
 }
 
-.passwordBox input {
-  width: 83%;
-  padding-right: 40px; /* space for eye icon */
+.divider span{
+
+    color:#94a3b8;
+
+    font-size:.9rem;
+
+    letter-spacing:1px;
 }
 
-.passwordBox span {
-  position: absolute;
-  right: 12px;
-  top: 73%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  padding-left: 10px;
-  color:rgba(20, 42, 42, 0.926)
+.guest-btn{
+
+    width:100%;
+
+    padding:15px;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.15);
+
+    background:rgba(255,255,255,.05);
+
+    color:white;
+
+    font-size:1rem;
+
+    cursor:pointer;
+
+    transition:.3s;
 }
 
-#bottom{
-  padding-left: 40px;
-  margin-top: 10px;
-  margin-bottom: 0px;
-  font-size:15px;
-  color:rgba(198, 208, 195, 0.811);
-}
+.guest-btn:hover{
 
-#login:hover{
-  font-size: 16px;
+    background:rgba(255,255,255,.1);
+
+    border-color:#60a5fa;
+
+    transform:translateY(-2px);
 }

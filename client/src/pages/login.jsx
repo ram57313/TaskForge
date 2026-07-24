@@ -1,54 +1,79 @@
-import { useState } from "react"
+import "./login.css";
+import { Link } from "react-router-dom";
+import { Mail, Lock, Eye,EyeOff, FastForward } from "lucide-react";
+import Header from "../components/Header/header";
+import { useState } from "react";
 
-// import Hyperspeed from "../components/hyperspeed/hyperspeed"
-// import { hyperspeedPresets } from "../components/hyperspeed/HyperSpeedPresets"
-import "./login.css"
-import {FaEye,FaEyeSlash} from "react-icons/fa"
-import {NavLink} from "react-router-dom"
+export default function Login() {
+     const [showPassword, setShowPassword] = useState(false);
+  return (<>
+    <Header buttonText='Sign Up' buttonLink="/signup"/>
 
+    <div className="login-page">
+      <div className="login-left">
+        <h1>Welcome Back</h1>
 
+        <p>
+          Sign in to continue managing your tasks, projects and productivity
+          with TaskForge.
+        </p>
+      </div>
 
-export default function Login(){
-    const [showPassword,setShowPassword]=useState(false);
-    const [email,setEmail]=useState("");
-    const [password,setPassword]=useState("");
+      <div className="login-card">
 
-    function login(){
+        <h2>Login</h2>
 
-    }
+        <form>
 
-    return (
-        <div className="loginPage">
+          <div className="input-box">
+            <Mail size={20} />
+            <input
+              type="email"
+              placeholder="Email"
+            />
+          </div>
 
-            <div className="loginCard">
-                <h3 className="login">LOGIN</h3>
+          <div className="input-box">
+            <Lock size={20} />
+            <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Password"
+/>
 
-                <div className="inputs">    
-                    
-                    <div >
-                    <p className="email">Email</p>
-                    <input type="email" placeholder="Enter The Email"  onChange={(e)=>{
-                        setEmail(e.target.value)
-                    }}/>
-                    {console.log(email)}
-                    </div>
+{showPassword ? (
+    <EyeOff
+        size={20}
+        className="eye"
+        onClick={() => setShowPassword(false)}
+    />
+) : (
+    <Eye
+        size={20}
+        className="eye"
+        onClick={() => setShowPassword(true)}
+    />
+)}
+          </div>
 
-                    <div className="passwordBox">
-                    <p className="passwordText">Password</p>
-                    <input  type={!showPassword?"password":"text"} placeholder="Enter Your Password "  onChange={(e)=>{
-                        setPassword(e.target.value)
-                    }} />
-                    {console.log(password)}
+          <div className="login-options">
+            <Link to="/forgot-password">
+              Forgot Password?
+            </Link>
+          </div>
 
-                    <span id="eye" onClick={()=>{setShowPassword(!showPassword)}}>{!showPassword?<FaEye/>:<FaEyeSlash/>}</span>
-                    </div>
-                </div>
+          <button className="login-btn">
+            Login
+          </button>
 
-                <div className="buttonBox">
-                    <NavLink to="/dashboard"><button id="button" onClick={()=>login()}>Login</button></NavLink>
-                </div>
+        </form>
 
-            </div>
-        </div>
-    )
+        <p className="signup-text">
+          Don't have an account?
+          <Link to="/signup"> Sign Up</Link>
+        </p>
+
+      </div>
+    </div>
+    </>
+  );
 }
