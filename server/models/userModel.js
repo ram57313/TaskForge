@@ -109,14 +109,14 @@ userSchema.index(
     {expireAfterSeconds:60}
 )
 
-userSchema.index(
-    {createdAt:1},
-    {expireAfterSeconds:60,
-        partialFilterExpression:{
-            isGuest:true
-        }
-    }
-)
+// userSchema.index(
+//     {createdAt:1},
+//     {expireAfterSeconds:60,
+//         partialFilterExpression:{
+//             isGuest:true
+//         }
+//     }
+// )
 
 const User=mongoose.model('User',userSchema);
 module.exports=User;

@@ -18,10 +18,16 @@ const createSendToken=(user,statusCode,res)=>{
     const cookieOptions={
         expires:new Date(Date.now()+(process.env.JWT_COOKIE_EXPIRES_IN)*24*60*60*1000),
         httpOnly:true,
-        secure:true  //sent only when we use https
+        secure:false,//sent only when we use https
+        sameSite:"lax"
     }
-    if(process.env.NODE_ENV==='production')cookieOptions.secure=true;
+    
+    // if(process.env.NODE_ENV==='production')cookieOptions.secure=true;
+
+    // console.log("COOKIE SET");
+
     res.cookie('jwt',token,cookieOptions);
+
 
     user.password=undefined;
     
@@ -92,7 +98,7 @@ exports.logout=catchAsync(async(req,res,next)=>{
 })
 
 exports.guestSignup=catchAsync(async(req,res,next)=>{
-    const guestUser=await User.create({
+    const user=await User.create({
         name:`guest${Date.now()}`,
         email:`guest${Date.now()}@demo.com`,
         password:"guest1234",
@@ -101,11 +107,12 @@ exports.guestSignup=catchAsync(async(req,res,next)=>{
 
     });
     
-    res.status(200).json({
-        status:"success",
-        message:"guest users only has access for 24 hours,signup for permanent access",
-        guestUser
-    })
+    createSendToken(user,200,res);
+    // res.status(200).json({
+    //     status:"success",
+    //     message:"guest users only has access for 24 hours,signup for permanent access",
+    //     user
+    // })
 })
 
 exports.protect=catchAsync(async(req,res,next)=>{
@@ -117,7 +124,7 @@ exports.protect=catchAsync(async(req,res,next)=>{
     }
 
     if(!token)return next(new AppError('you are not logged in ,Please login',401));
-    // console.log(token);
+    console.log(token);
 
      const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 

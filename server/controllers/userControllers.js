@@ -32,9 +32,7 @@ exports.getUser=catchAsync(async(req,res,next)=>{
     if(!user)return next(new AppError('No user Found .Please try again',404));
     res.status(200).json({
         status:"success",
-        data:{
-            user
-        }
+        user
     });
 
 })
