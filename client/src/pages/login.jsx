@@ -2,13 +2,61 @@ import "./login.css";
 import { Link } from "react-router-dom";
 import { Mail, Lock, Eye,EyeOff, FastForward } from "lucide-react";
 import Header from "../components/Header/header";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
+import { login } from "../api/authApi";
 
 export default function Login() {
+     const navigate=useNavigate();
+     const {checkAuth}=useAuth();
+
+
      const [showPassword, setShowPassword] = useState(false);
+     const [loading,setLoading]=useState(false);
+
+     const [formData,setFormData]=useState({
+      email:"",
+      password:""
+     });
+
+     const  handleChange=(e)=>{
+       setFormData(prev=>({
+        ...prev,
+        [e.target.name]:e.target.value,
+       }))
+     }
+
+     const handleSubmit=async (e)=>{
+      e.preventDefault();
+
+      const {email,password}=formData;
+
+      if(!email||!password){
+        toast.error("please fill all fields");
+      }
+
+     try{
+      setLoading(true);
+
+      const res=await login(formData);
+
+      toast.success(res.data.message||"login successful");
+
+      await checkAuth();
+
+      navigate("/dashboard");
+
+     }catch(err){
+      toast.error(err.response?.data?.message||"Login failed");
+     }finally{
+      setLoading(false);
+     }
+     }
+
   return (<>
     <Header buttonText='Sign Up' buttonLink="/signup"/>
-
     <div className="login-page">
       <div className="login-left">
         <h1>Welcome Back</h1>
@@ -23,13 +71,16 @@ export default function Login() {
 
         <h2>Login</h2>
 
-        <form>
+        <form onSubmit={handleSubmit}>
 
           <div className="input-box">
             <Mail size={20} />
             <input
               type="email"
+              name="email"
               placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
             />
           </div>
 
@@ -37,7 +88,10 @@ export default function Login() {
             <Lock size={20} />
             <input
     type={showPassword ? "text" : "password"}
+    name="password"
     placeholder="Password"
+    value={formData.password}
+    onChange={handleChange}
 />
 
 {showPassword ? (
@@ -60,8 +114,8 @@ export default function Login() {
               Forgot Password?
             </Link>
           </div>
-
-          <button className="login-btn">
+       
+          <button className="login-btn" type="submit" disabled={loading} >
             Login
           </button>
 
@@ -74,6 +128,7 @@ export default function Login() {
 
       </div>
     </div>
+
     </>
   );
 }

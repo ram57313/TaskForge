@@ -2,7 +2,7 @@ import api from "./axios";
 
 // Signup
 export const signup = async (userData) => {
-  return await api.post("/users/signup", userData);
+  return await api.post("/users/signup", userData,{withCredentials:true});
 };
 
 // Login
@@ -12,7 +12,7 @@ export const login = async (userData) => {
 
 // Guest Login
 export const guestLogin = async () => {
-  return await api.post("/users/guest-login");
+  return await api.post("/users/guest-login",{withCredentials:true});
 };
 
 // Logout
@@ -21,6 +21,6 @@ export const logout = async () => {
 };
 
 // Current User
-// export const getCurrentUser = async () => {
-//   return await api.get("/users/me");
-// };
+export const getCurrentUser = async () => {
+  return await api.get("/users/me",{withCredentials:true});
+};
