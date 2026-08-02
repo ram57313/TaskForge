@@ -1,0 +1,99 @@
+import "./WelcomeCard.css";
+
+import { FiPlus } from "react-icons/fi";
+import { MdOutlineWavingHand } from "react-icons/md";
+
+const WelcomeCard = () => {
+
+    const hour = new Date().getHours();
+
+    let greeting = "Good Evening";
+
+    if (hour < 12) {
+        greeting = "Good Morning";
+    } else if (hour < 17) {
+        greeting = "Good Afternoon";
+    }
+
+    // Temporary until backend is connected
+    const userName = "Ramcharan";
+
+    const completedTasks = 12;
+    const totalTasks = 20;
+
+    const progress =
+        totalTasks === 0
+            ? 0
+            : Math.round((completedTasks / totalTasks) * 100);
+
+    return (
+
+        <section className="welcome-card">
+
+            <div className="welcome-left">
+
+                <h1>
+
+                    {greeting},{" "}
+                    <span>{userName}</span>
+                    {" "}
+                   <MdOutlineWavingHand color="blue" className="wave"/>
+
+                </h1>
+
+                <p>
+
+                    Stay focused. Complete today's priorities one task at a time.
+
+                </p>
+
+                <button className="welcome-btn">
+
+                    <FiPlus />
+
+                    <span>Create Task</span>
+
+                </button>
+
+            </div>
+
+            <div className="welcome-right">
+
+                <h3>Today's Progress</h3>
+
+                <div className="progress-bar">
+
+                    <div
+                        className="progress-fill"
+                        style={{
+                            width: `${progress}%`
+                        }}
+                    />
+
+                </div>
+
+                <div className="progress-info">
+
+                    <span>
+
+                        {completedTasks} Completed
+
+                    </span>
+
+                    <span>
+
+                        {totalTasks - completedTasks} Remaining
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    );
+
+};
+
+export default WelcomeCard;

@@ -1,0 +1,219 @@
+.task-toolbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    margin:35px 0 25px;
+
+    flex-wrap:wrap;
+
+}
+
+/* ========================= */
+
+.toolbar-title{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    gap:12px;
+
+}
+
+.toolbar-title h2{
+
+    font-size:1.6rem;
+
+    font-weight:700;
+
+}
+
+.toolbar-title span{
+
+    color:#64748b;
+
+    font-size:.95rem;
+
+}
+
+/* ========================= */
+
+.toolbar-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    flex-wrap:wrap;
+
+}
+
+/* ========================= */
+
+.toolbar-search{
+
+    width:380px;
+
+    max-width:100%;
+
+    height:46px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:0 16px;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.06);
+
+    border-radius:14px;
+
+    transition:.25s;
+
+}
+
+.toolbar-search:hover{
+
+    border-color:rgba(96,165,250,.25);
+
+}
+
+.toolbar-search:focus-within{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 3px rgba(37,99,235,.12);
+
+}
+
+.toolbar-search svg{
+
+    color:#64748b;
+
+    font-size:1rem;
+
+}
+
+.toolbar-search input{
+
+    flex:1;
+
+    border:none;
+
+    outline:none;
+
+    background:transparent;
+
+    color:white;
+
+    font-size:.92rem;
+
+}
+
+.toolbar-search input::placeholder{
+
+    color:#64748b;
+
+}
+
+/* ========================= */
+
+.toolbar-right > .dropdown{
+
+    width:170px;
+
+}
+
+/* ========================= */
+
+.toolbar-add-btn{
+
+    height:46px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:0 18px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#2563eb;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.toolbar-add-btn:hover{
+
+    background:#1d4ed8;
+
+    transform:translateY(-2px);
+
+}
+
+/* ========================= */
+
+@media(max-width:900px){
+
+    .task-toolbar{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .toolbar-right{
+
+        width:100%;
+
+    }
+
+    .toolbar-search{
+
+        width:100%;
+
+    }
+
+}
+
+@media(max-width:650px){
+
+    .toolbar-right{
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+    }
+
+    .toolbar-add-btn{
+
+        justify-content:center;
+
+    }
+
+}

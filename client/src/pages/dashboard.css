@@ -1,0 +1,107 @@
+.dashboard{
+
+    min-height:100vh;
+
+    background:#020617;
+
+    color:white;
+
+    overflow:hidden;
+
+}
+
+/* ==========================
+   BODY
+========================== */
+
+.dashboard-body{
+
+    display:flex;
+
+    height:calc(100vh - 75px);
+
+}
+
+/* ==========================
+   MAIN CONTENT
+========================== */
+
+.dashboard-main{
+
+    flex:1;
+
+    padding:35px;
+
+    overflow-y:auto;
+
+    transition:all .3s ease;
+
+}
+
+/* Sidebar Expanded */
+
+.dashboard-main.sidebar-open{
+
+    margin-left:0;
+
+}
+
+/* Sidebar Collapsed */
+
+.dashboard-main.sidebar-closed{
+
+    margin-left:0;
+
+}
+
+/* ==========================
+   SCROLLBAR
+========================== */
+
+.dashboard-main::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+.dashboard-main::-webkit-scrollbar-track{
+
+    background:#0f172a;
+
+}
+
+.dashboard-main::-webkit-scrollbar-thumb{
+
+    background:#334155;
+
+    border-radius:20px;
+
+}
+
+.dashboard-main::-webkit-scrollbar-thumb:hover{
+
+    background:#475569;
+
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:900px){
+
+.dashboard-body{
+
+    position:relative;
+
+}
+
+.dashboard-main{
+
+    width:100%;
+
+    padding:25px 18px;
+
+}
+
+}

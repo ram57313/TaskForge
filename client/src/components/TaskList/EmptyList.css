@@ -1,0 +1,145 @@
+.empty-state{
+
+    min-height:380px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    padding:50px 30px;
+
+    border-radius:22px;
+
+    background:rgba(15,23,42,.75);
+
+    backdrop-filter:blur(10px);
+
+    border:1px dashed rgba(255,255,255,.08);
+
+    transition:all .25s ease;
+
+}
+
+.empty-state:hover{
+
+    border-color:rgba(37,99,235,.18);
+
+}
+
+.empty-icon{
+
+    font-size:4rem;
+
+    color:#475569;
+
+    margin-bottom:20px;
+
+}
+
+.empty-state h2{
+
+    font-size:2rem;
+
+    font-weight:700;
+
+    margin-bottom:12px;
+
+    color:#f8fafc;
+
+}
+
+.empty-state p{
+
+    max-width:450px;
+
+    line-height:1.8;
+
+    color:#94a3b8;
+
+    font-size:.95rem;
+
+    margin-bottom:30px;
+
+}
+
+.empty-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    padding:14px 24px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-size:.95rem;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:all .25s ease;
+
+}
+
+.empty-btn:hover{
+
+    background:#1d4ed8;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 24px rgba(37,99,235,.28);
+
+}
+
+.empty-btn svg{
+
+    font-size:1rem;
+
+}
+
+@media(max-width:768px){
+
+    .empty-state{
+
+        padding:40px 20px;
+
+    }
+
+    .empty-state h2{
+
+        font-size:1.6rem;
+
+    }
+
+    .empty-state p{
+
+        font-size:.9rem;
+
+    }
+
+    .empty-btn{
+
+        width:100%;
+
+        max-width:280px;
+
+    }
+
+}

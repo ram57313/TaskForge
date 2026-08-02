@@ -1,0 +1,76 @@
+import "./TaskList.css";
+
+import TaskCard from "../TaskCard/TaskCard";
+import EmptyState from "./EmptyList";
+import TaskToolbar from "../TaskToolbar/TaskToolbar";
+
+const TaskList = ({
+    tasks = [],
+    search,
+    setSearch,
+    statusFilter,
+    setStatusFilter,
+    sortBy,
+    setSortBy,
+    openTaskModal,
+    onEdit,
+    onArchive,
+    onDelete,
+    onToggle
+}) => {
+
+    return (
+
+        <section className="task-list-container">
+
+            <TaskToolbar
+                taskCount={tasks.length}
+                search={search}
+                setSearch={setSearch}
+                statusFilter={statusFilter}
+                setStatusFilter={setStatusFilter}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                openTaskModal={openTaskModal}
+            />
+
+            {
+                tasks.length === 0 ? (
+
+                    <EmptyState
+                        openTaskModal={openTaskModal}
+                    />
+
+                ) : (
+
+                    <div className="task-list">
+
+                        {
+
+                            tasks.map(task => (
+
+                                <TaskCard
+                                    key={task._id}
+                                    task={task}
+                                    onEdit={onEdit}
+                                    onArchive={onArchive}
+                                    onDelete={onDelete}
+                                    onToggle={onToggle}
+                                />
+
+                            ))
+
+                        }
+
+                    </div>
+
+                )
+            }
+
+        </section>
+
+    );
+
+};
+
+export default TaskList;

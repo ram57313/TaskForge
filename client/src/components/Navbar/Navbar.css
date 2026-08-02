@@ -1,0 +1,401 @@
+.navbar{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+    height:75px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 19px;
+
+    background:rgba(15,23,42,.85);
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+/* ============================= */
+
+.navbar-left{
+
+    display:flex;
+
+    align-items:center;
+
+
+    gap:18px;
+
+}
+
+/* ============================= */
+
+.menu-btn{
+
+    width:45px;
+
+    height:45px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:transparent;
+
+    color:white;
+
+    font-size:1.3rem;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.menu-btn:hover{
+
+    background:rgba(255,255,255,.08);
+
+
+}
+
+/* ============================= */
+
+.logo-btn{
+
+    background: transparent;
+
+    border: none;
+
+    outline: none;
+
+    padding: 0;
+
+    margin: 0;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+}
+
+.logo{
+
+    font-size:1.7rem;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    user-select:none;
+
+
+     color: rgb(255, 255, 255);
+
+}
+
+.logo span{
+
+    color:#2563eb;
+
+}
+
+/* ============================= */
+
+.navbar-center{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+/* ============================= */
+
+.search-box{
+
+    width:100%;
+
+    max-width:500px;
+
+    position:relative;
+
+}
+
+.search-icon{
+
+    position:absolute;
+
+    top:50%;
+
+    left:18px;
+
+    transform:translateY(-50%);
+
+    color:#94a3b8;
+
+    font-size:1rem;
+
+}
+
+.search-box input{
+
+    width:100%;
+
+    height:48px;
+
+    padding-left:50px;
+
+    padding-right:18px;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    outline:none;
+
+    background:rgba(255,255,255,.05);
+
+    color:white;
+
+    font-size:.95rem;
+
+    transition:.3s;
+
+}
+
+.search-box input::placeholder{
+
+    color:#94a3b8;
+
+}
+
+.search-box input:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 4px rgba(37,99,235,.15);
+
+}
+
+/* ============================= */
+
+.navbar-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+/* ============================= */
+
+.new-task-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:12px 20px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.new-task-btn:hover{
+
+    transform:translateY(-2px);
+
+    background:#1d4ed8;
+
+}
+
+/* ============================= */
+
+.icon-btn{
+
+    width:45px;
+
+    height:45px;
+
+    border:none;
+
+    border-radius:12px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:rgba(255,255,255,.05);
+
+    color:white;
+
+    font-size:1.15rem;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.icon-btn:hover{
+
+    background:rgba(255,255,255,.1);
+
+}
+
+/* ============================= */
+
+.profile-preview{
+
+    background: transparent;
+
+    border: none;
+
+    outline: none;
+
+    padding: 0;
+
+    margin: 0;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+}
+
+.avatar{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#2563eb;
+
+    font-weight:700;
+
+    font-size:1rem;
+
+    color:white;
+
+}
+
+/* ============================= */
+
+@media(max-width:992px){
+
+.search-box{
+
+    max-width:350px;
+
+}
+
+.new-task-btn span{
+
+    display:none;
+
+}
+
+.new-task-btn{
+
+    padding:12px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.navbar{
+
+    padding:0 20px;
+
+}
+
+.logo{
+
+    display:none;
+
+}
+
+.search-box{
+
+    max-width:220px;
+
+}
+
+}
+
+@media(max-width:560px){
+
+.search-box{
+
+    display:none;
+
+}
+
+}
+
+.menu-btn svg{
+
+    transition: transform .3s ease;
+
+}
+
+.menu-open{
+
+    transform: rotate(90deg);
+
+}
+
+.menu-closed{
+
+    transform: rotate(0deg);
+
+}
