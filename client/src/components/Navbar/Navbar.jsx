@@ -7,7 +7,11 @@ import {
   FiPlus
 } from "react-icons/fi";
 
-const Navbar = ({ toggleSidebar,sidebarOpen}) => {
+const Navbar =  ({
+    toggleSidebar,
+    sidebarOpen,
+    openCreateTaskModal
+}) => {
 
   return (
 
@@ -56,7 +60,13 @@ const Navbar = ({ toggleSidebar,sidebarOpen}) => {
 
       <div className="navbar-right">
 
-        <button className="new-task-btn" onClick={() => {}}>
+        <button
+
+    className="new-task-btn"
+
+    onClick={openCreateTaskModal}
+
+>
 
           <FiPlus/>
 

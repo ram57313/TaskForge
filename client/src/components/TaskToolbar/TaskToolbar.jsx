@@ -54,18 +54,22 @@ const TaskToolbar = ({
 
                 {/* <div className="toolbar-select"> */}
 
-                    <FiFilter/>
+                    <div className="toolbar-filter">
 
-                        <Dropdown
-                            options={[
-                                "All",
-                                "Completed",
-                                "Pending",
-                                "Archived"
-                            ]}
-                            value={statusFilter||"All"}
-                            onChange={setStatusFilter}
-                        />
+    <FiFilter className="toolbar-filter-icon"/>
+
+    <Dropdown
+        options={[
+            "All",
+            "Completed",
+            "Pending",
+            "Archived"
+        ]}
+        value={statusFilter || "All"}
+        onChange={setStatusFilter}
+    />
+
+</div>
 
 
 
@@ -73,17 +77,21 @@ const TaskToolbar = ({
 
                 {/* <div className="toolbar-select"> */}
 
-                    <FiArrowUp/>
+                    <div className="toolbar-filter">
 
-                    <Dropdown
-    options={[
-        "Newest",
-        "Oldest",
-        "A-Z"
-    ]}
-    value={sortBy||"Newest"}
-    onChange={setSortBy}
-/>
+    <FiArrowUp className="toolbar-filter-icon"/>
+
+    <Dropdown
+        options={[
+            "Newest",
+            "Oldest",
+            "A-Z"
+        ]}
+        value={sortBy || "Newest"}
+        onChange={setSortBy}
+    />
+
+</div>
 
                 {/* </div> */}
 

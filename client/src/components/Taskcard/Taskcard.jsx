@@ -24,21 +24,25 @@ const TaskCard = ({
 
     return(
 
-        <div className="task-card">
+        <div
+    className={`task-card ${
+        task.status ? "completed-card" : ""
+    }`}
+>
 
             <div className="task-header">
 
                 <button
-    className={`status-btn ${
-        task.completed ? "completed" : ""
-    }`}
-    onClick={() => onToggle(task)}
-    aria-label={
-        task.completed
-            ? "Mark as pending"
-            : "Mark as completed"
-    }
->
+                    className={`status-btn ${
+                        task.status==true ? "completed" : ""
+                    }`}
+                    onClick={() => onToggle(task)}
+                    aria-label={
+                        task.status
+                            ? "Mark as pending"
+                            : "Mark as completed"
+                    }
+                >
 
     <span className="status-circle"></span>
 
@@ -48,8 +52,8 @@ const TaskCard = ({
 
                     <h3
                         className={
-                            task.completed
-                            ? "completed"
+                            task.status
+                            ? "completed-title"
                             : ""
                         }
                     >
@@ -84,7 +88,13 @@ const TaskCard = ({
 
                         <FiCalendar/>
 
-                        {task.dueDate}
+                        <p className="task-date">
+    {new Date(task.dueDate).toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    })}
+</p>
 
                     </span>
 
@@ -92,8 +102,17 @@ const TaskCard = ({
 
                 <div className="task-actions">
 
+
+                      
                     <button
-                        onClick={()=>onEdit(task)}
+                        onClick={() => onEdit(task)}
+                        disabled={task.status}
+                        className={task.status ? "disabled-btn" : ""}
+                        title={
+                            task.status
+                                ? "Mark the task as pending to edit it"
+                                : "Edit Task"
+                        }
                     >
 
                         <FiEdit2/>

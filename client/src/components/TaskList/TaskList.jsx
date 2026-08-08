@@ -12,10 +12,10 @@ const TaskList = ({
     setStatusFilter,
     sortBy,
     setSortBy,
-    openTaskModal,
+    openCreateTaskModal,
     onEdit,
-    onArchive,
-    onDelete,
+    // onArchive,
+    // onDelete, 
     onToggle
 }) => {
 
@@ -31,14 +31,14 @@ const TaskList = ({
                 setStatusFilter={setStatusFilter}
                 sortBy={sortBy}
                 setSortBy={setSortBy}
-                openTaskModal={openTaskModal}
+                openTaskModal={openCreateTaskModal}
             />
 
             {
                 tasks.length === 0 ? (
 
                     <EmptyState
-                        openTaskModal={openTaskModal}
+                        openTaskModal={openCreateTaskModal}
                     />
 
                 ) : (
@@ -53,8 +53,8 @@ const TaskList = ({
                                     key={task._id}
                                     task={task}
                                     onEdit={onEdit}
-                                    onArchive={onArchive}
-                                    onDelete={onDelete}
+                                    // onArchive={onArchive}
+                                    // onDelete={onDelete}
                                     onToggle={onToggle}
                                 />
 

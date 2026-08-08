@@ -50,9 +50,7 @@
 
     align-items:center;
 
-    gap:14px;
-
-    flex-wrap:wrap;
+    gap:16px;
 
 }
 
@@ -60,7 +58,7 @@
 
 .toolbar-search{
 
-    width:380px;
+    width:450px;
 
     max-width:100%;
 
@@ -215,5 +213,33 @@
         justify-content:center;
 
     }
+
+}
+
+.toolbar-filter{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    width:220px;
+
+}
+
+.toolbar-filter-icon{
+
+    color:#94a3b8;
+
+    font-size:1rem;
+
+    flex-shrink:0;
+
+}
+
+.toolbar-filter .dropdown{
+
+    flex:1;
 
 }

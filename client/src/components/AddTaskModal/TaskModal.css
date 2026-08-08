@@ -1,0 +1,419 @@
+/* =============================== */
+/* Overlay */
+/* =============================== */
+
+.modal-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(2,6,23,.72);
+
+    backdrop-filter:blur(10px);
+
+    z-index:5000;
+
+    animation:fadeIn .25s ease;
+
+}
+
+/* =============================== */
+/* Modal */
+/* =============================== */
+
+.task-modal{
+
+    width:min(92vw,720px);
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    background:#0f172a;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:24px;
+
+    padding:32px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.45),
+        0 0 0 1px rgba(255,255,255,.03);
+
+    animation:slideUp .25s ease;
+
+}
+
+/* Scrollbar */
+
+.task-modal::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+.task-modal::-webkit-scrollbar-thumb{
+
+    background:#334155;
+
+    border-radius:999px;
+
+}
+
+/* =============================== */
+/* Header */
+/* =============================== */
+
+.modal-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    margin-bottom:28px;
+
+}
+
+.modal-header h2{
+
+    font-size:1.8rem;
+
+    margin-bottom:6px;
+
+    color:#f8fafc;
+
+}
+
+.modal-header p{
+
+    color:#94a3b8;
+
+    font-size:.95rem;
+
+}
+
+/* =============================== */
+/* Close Button */
+/* =============================== */
+
+.close-btn{
+
+    width:42px;
+
+    height:42px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:transparent;
+
+    color:#94a3b8;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.close-btn:hover{
+
+    background:rgba(255,255,255,.06);
+
+    color:white;
+
+}
+
+/* =============================== */
+/* Form */
+/* =============================== */
+
+.task-form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:22px;
+
+}
+
+.input-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.input-group label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    color:#cbd5e1;
+
+    font-weight:500;
+
+    font-size:.92rem;
+
+}
+
+/* =============================== */
+/* Inputs */
+/* =============================== */
+
+.input-group input,
+.input-group textarea,
+.input-group select{
+
+    width:100%;
+
+    padding:14px 16px;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    background:rgba(255,255,255,.04);
+
+    color:white;
+
+    outline:none;
+
+    font-size:.95rem;
+
+    transition:.25s;
+
+}
+
+.input-group textarea{
+
+    resize:vertical;
+
+    min-height:120px;
+
+}
+
+.input-group input::placeholder,
+.input-group textarea::placeholder{
+
+    color:#64748b;
+
+}
+
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 4px rgba(37,99,235,.15);
+
+}
+
+/* Dropdown */
+
+.input-group select{
+
+    appearance:none;
+
+    cursor:pointer;
+
+}
+
+/* Error */
+
+.input-group small{
+
+    color:#ef4444;
+
+    font-size:.82rem;
+
+}
+
+/* =============================== */
+/* Row */
+/* =============================== */
+
+.form-row{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:20px;
+
+}
+
+/* =============================== */
+/* Footer */
+/* =============================== */
+
+.modal-footer{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:16px;
+
+    margin-top:10px;
+
+}
+
+.cancel-btn{
+
+    padding:13px 24px;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    background:transparent;
+
+    color:#cbd5e1;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.cancel-btn:hover{
+
+    background:rgba(255,255,255,.06);
+
+}
+
+.submit-btn{
+
+    padding:13px 24px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.submit-btn:hover:not(:disabled){
+
+    background:#1d4ed8;
+
+    transform:translateY(-2px);
+
+}
+
+.submit-btn:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+}
+
+/* =============================== */
+/* Animations */
+/* =============================== */
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+@keyframes slideUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* =============================== */
+/* Responsive */
+/* =============================== */
+
+@media(max-width:700px){
+
+    .task-modal{
+
+        padding:22px;
+
+        border-radius:18px;
+
+    }
+
+    .form-row{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .modal-footer{
+
+        flex-direction:column-reverse;
+
+    }
+
+    .cancel-btn,
+    .submit-btn{
+
+        width:100%;
+
+    }
+
+}

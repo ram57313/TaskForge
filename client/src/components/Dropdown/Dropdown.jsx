@@ -6,7 +6,7 @@ const Dropdown = ({
     options,
     value,
     onChange,
-    width = "160px"
+    width = "100%"
 }) => {
 
     const [open, setOpen] = useState(false);
