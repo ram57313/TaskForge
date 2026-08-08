@@ -16,7 +16,7 @@ const taskSchema=new mongoose.Schema({
     category:{
         type:String,
         enum:{
-            values:["personal","work","study","other"],
+            values:["Personal","Work","Study","Other"],
             message:"Category can only be Personal,Work,Study,Other"
         }
     },
@@ -35,7 +35,17 @@ const taskSchema=new mongoose.Schema({
     user:{
         type:mongoose.Schema.ObjectId,
         ref:'User'
-    }
+    },
+    priority:{
+    type:String,
+    enum:["Low","Medium","High"],
+    default:"medium"
+    },
+
+    dueDate:{
+        type:Date,
+        default:null
+    },
 })
 
 

@@ -15,14 +15,22 @@ const filteredObj=(obj,...allowedFields)=>{
 
 
 exports.createTask=catchAsync(async(req,res,next)=>{ 
+    
+    console.log("Type:", typeof req.body.dueDate);
+console.log("Value:", req.body.dueDate);
+
     const task=await Task.create({
         title:req.body.title,
         description:req.body.description,
         status:req.body.status,
         isDeleted:req.body.isDeleted,
         category:req.body.category,
+        priority:req.body.priority,
+        dueDate:req.body.dueDate,
         user:req.user._id
     })
+
+    console.log("Saved:", task.dueDate);
  
     res.status(200).json({
         status:"success",
@@ -33,22 +41,28 @@ exports.createTask=catchAsync(async(req,res,next)=>{
 exports.getAllTasks=catchAsync(async(req,res,next)=>{
     let filter={};
     
-        if(req.query.status==='complete'){
-            filter.status=true;
-        }else if (req.query.status==='incomplete'){
-            filter.status=false;
-        }
-        if(req.query.isDeleted==='true')filter.isDeleted=true;
-        else if(req.query.isDeleted==='false')filter.isDeleted=false;
+       filter.user = req.user._id;
 
-        if(!req.query.isDeleted)filter.isDeleted=false;
-         
-        if(req.query.status)filter.status=true;
-        else {
-            filter.status=false;//only those tasks which are not finished
-        }
+// Default: don't show deleted tasks
+filter.isDeleted = false;
 
-      filter.user=req.user._id;
+// Show deleted tasks only if requested
+if (req.query.isDeleted === "true") {
+    filter.isDeleted = true;
+}
+
+// Apply status filter only if requested
+if (req.query.status === "completed") {
+
+    filter.status = true;
+
+}
+
+else if (req.query.status === "pending") {
+
+    filter.status = false;
+
+}
        
     const features=new Apifeatures(Task.find(filter),req.query).sort();
 
@@ -57,10 +71,14 @@ exports.getAllTasks=catchAsync(async(req,res,next)=>{
     if(!tasks)return next(new AppError("something went wrong,Please try again",404));
 
     res.status(200).json({
-        status:"success",
-        result:tasks.length,
-        tasks:tasks.length>0?tasks:"No Tasks"
-    })
+
+    status:"success",
+
+    result:tasks.length,
+
+    tasks
+
+});
 })
 
 exports.getTask=catchAsync(async(req,res,next)=>{
@@ -99,28 +117,55 @@ exports.deleteTaskTemp=catchAsync(async(req,res,next)=>{
 })
 
 
-exports.updateTask=catchAsync(async(req,res,next)=>{
-    if(req.body.deletedAt||req.body.isDeleted)return next(new AppError("You cant update the restricted fields",400))//also think of about access to changing of status
-    
-    const filteredBody=filteredObj(req.body,"title","category","description")
-    
-    const task=await Task.findByIdAndUpdate(req.params.id,filteredBody,{
-        new:true,
-        runValidators:true
-    });
-   
-    if(!task)return next(new AppError("No Task found with that ID",404)); 
+exports.updateTask = catchAsync(async (req, res, next) => {
 
-    if(!req.body.description&&req.body.title){
-        req.body.description=req.body.title;
+    if (req.body.deletedAt || req.body.isDeleted)
+        return next(
+            new AppError(
+                "You cant update the restricted fields",
+                400
+            )
+        );
+
+    // If description is empty, use the title
+    if (!req.body.description?.trim() && req.body.title) {
+
+        req.body.description = req.body.title;
+
     }
 
-    res.status(200).json({
-        status:"success",
-        task
-    })
+    const filteredBody = filteredObj(
+        req.body,
+        "title",
+        "description",
+        "category",
+        "priority",
+        "dueDate"
+    );
 
-})
+    const task = await Task.findByIdAndUpdate(
+        req.params.id,
+        filteredBody,
+        {
+            new: true,
+            runValidators: true
+        }
+    );
+
+    if (!task)
+        return next(
+            new AppError(
+                "No Task found with that ID",
+                404
+            )
+        );
+
+    res.status(200).json({
+        status: "success",
+        task
+    });
+
+});
 
 
 //has to implement a feature which will reset the attribute of deletedAt and isDeleted ,so that the userr can restore the task or his own account
@@ -144,18 +189,32 @@ exports.restoreTask=catchAsync(async(req,res,next)=>{
 
 
 
-exports.toggleStatusOfTask=catchAsync(async(req,res,next)=> {//if finished,u can click it to mark it as finished,if u want to undo it ,u can toggle
+exports.toggleStatusOfTask = catchAsync(async (req, res, next) => {
 
-    const task=await Task.findById(req.params.id);
-    task.status=!task.status;
-    task.save();
+    const task = await Task.findById(req.params.id);
+
+    if (!task) {
+
+        return next(
+            new AppError("No Task found with that ID", 404)
+        );
+
+    }
+
+    task.status = !task.status;
+
+    await task.save();
 
     res.status(200).json({
-        status:"success",
-        message:"status toggled successfully",
-        task
-    })
-});
 
+        status: "success",
+
+        message: "Status toggled successfully",
+
+        task
+
+    });
+
+});
 
 
