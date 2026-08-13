@@ -1,0 +1,239 @@
+.deleted-page{
+
+    width:100%;
+
+    padding:35px 40px;
+
+    box-sizing:border-box;
+
+}
+
+.deleted-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:30px;
+
+}
+
+.deleted-header h1{
+
+    margin:0 0 6px;
+
+    font-size:1.8rem;
+
+    color:#f8fafc;
+
+}
+
+.deleted-header p{
+
+    margin:0;
+
+    color:#94a3b8;
+
+}
+
+.deleted-header > svg{
+
+    font-size:1.8rem;
+
+    color:#64748b;
+
+}
+
+.deleted-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+.deleted-task{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:20px 22px;
+
+    border-radius:18px;
+
+    background:rgba(17,24,39,.72);
+
+    border:1px solid rgba(255,255,255,.06);
+
+    transition:.25s ease;
+
+}
+
+.deleted-task:hover{
+
+    border-color:rgba(96,165,250,.18);
+
+    transform:translateY(-1px);
+
+}
+
+.deleted-task-info{
+
+    min-width:0;
+
+}
+
+.deleted-task-info h3{
+
+    margin:0 0 7px;
+
+    color:#f8fafc;
+
+    font-size:1.05rem;
+
+}
+
+.deleted-task-info p{
+
+    margin:0 0 8px;
+
+    color:#94a3b8;
+
+    font-size:.9rem;
+
+    line-height:1.5;
+
+}
+
+.deleted-task-info span{
+
+    color:#64748b;
+
+    font-size:.8rem;
+
+}
+
+.restore-btn{
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:11px 16px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s ease;
+
+}
+
+.restore-btn:hover{
+
+    background:#1d4ed8;
+
+    transform:translateY(-1px);
+
+}
+
+.deleted-empty{
+
+    min-height:350px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    border-radius:22px;
+
+    background:rgba(15,23,42,.72);
+
+    border:1px dashed rgba(255,255,255,.08);
+
+}
+
+.deleted-empty > svg{
+
+    font-size:3.5rem;
+
+    color:#475569;
+
+    margin-bottom:18px;
+
+}
+
+.deleted-empty h2{
+
+    margin:0 0 8px;
+
+    color:#f8fafc;
+
+}
+
+.deleted-empty p{
+
+    margin:0;
+
+    color:#64748b;
+
+}
+
+.deleted-loading{
+
+    color:#94a3b8;
+
+}
+
+@media(max-width:650px){
+
+    .deleted-page{
+
+        padding:25px 20px;
+
+    }
+
+    .deleted-task{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+    .restore-btn{
+
+        width:100%;
+
+        justify-content:center;
+
+    }
+
+}

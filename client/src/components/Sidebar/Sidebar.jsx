@@ -2,152 +2,169 @@ import "./Sidebar.css";
 
 import {
     FiHome,
-    FiClipboard,
-    FiStar,
-    FiArchive,
     FiTrash2,
     FiUser,
     FiSettings,
-    FiLogOut
+    FiLogOut,
+    FiArchive
 } from "react-icons/fi";
+
+import { NavLink } from "react-router-dom";
 
 const Sidebar = ({ sidebarOpen }) => {
 
     const menuItems = [
 
         {
-            title:"Dashboard",
-            icon:<FiHome/>
+            title: "Dashboard",
+            icon: <FiHome />,
+            path: "/dashboard"
         },
 
         {
-            title:"All Tasks",
-            icon:<FiClipboard/>
+            title:"Archive",
+            icon:<FiArchive/>,
+            path:"/archived"
         },
 
         {
-            title:"Important",
-            icon:<FiStar/>
+            title: "Trash",
+            icon: <FiTrash2 />,
+            path: "/deleted"
+        }
+
+
+    ];
+
+    const bottomItems = [
+
+        {
+            title: "Profile",
+            icon: <FiUser />,
+            path: "/profile"
         },
 
         {
-            title:"Archived",
-            icon:<FiArchive/>
-        },
-
-        {
-            title:"Trash",
-            icon:<FiTrash2/>
+            title: "Settings",
+            icon: <FiSettings />,
+            path: "/settings"
         }
 
     ];
 
-    return(
+
+    return (
 
         <aside
             className={`sidebar ${
-                sidebarOpen ? "open" : "closed"
+                sidebarOpen
+                    ? "open"
+                    : "closed"
             }`}
         >
 
+            {/* TOP */}
+
             <div className="sidebar-top">
 
-                {
+                {menuItems.map((item) => (
 
-                    menuItems.map((item,index)=>{
+                    <NavLink
+                        key={item.path}
+                        to={item.path}
+                        className={({ isActive }) =>
+                            `sidebar-item ${
+                                isActive
+                                    ? "active"
+                                    : ""
+                            }`
+                        }
+                    >
 
-                        return(
+                        <span className="sidebar-icon">
 
-                            <button
-                                key={index}
-                                className="sidebar-item"
-                            >
+                            {item.icon}
 
-                                <span className="sidebar-icon">
+                        </span>
 
-                                    {item.icon}
+                        {sidebarOpen && (
 
-                                </span>
+                            <span className="sidebar-text">
 
-                                {
-                                    sidebarOpen &&
+                                {item.title}
 
-                                    <span className="sidebar-text">
+                            </span>
 
-                                        {item.title}
+                        )}
 
-                                    </span>
-                                }
+                    </NavLink>
 
-                            </button>
-
-                        )
-
-                    })
-
-                }
+                ))}
 
             </div>
 
+
+            {/* BOTTOM */}
+
             <div className="sidebar-bottom">
 
-                <button className="sidebar-item">
+                {bottomItems.map((item) => (
 
-                    <span className="sidebar-icon">
+                    <NavLink
+                        key={item.path}
+                        to={item.path}
+                        className={({ isActive }) =>
+                            `sidebar-item ${
+                                isActive
+                                    ? "active"
+                                    : ""
+                            }`
+                        }
+                    >
 
-                        <FiUser/>
+                        <span className="sidebar-icon">
 
-                    </span>
-
-                    {
-                        sidebarOpen &&
-
-                        <span className="sidebar-text">
-
-                            Profile
-
-                        </span>
-                    }
-
-                </button>
-
-                <button className="sidebar-item">
-
-                    <span className="sidebar-icon">
-
-                        <FiSettings/>
-
-                    </span>
-
-                    {
-                        sidebarOpen &&
-
-                        <span className="sidebar-text">
-
-                            Settings
+                            {item.icon}
 
                         </span>
-                    }
 
-                </button>
+                        {sidebarOpen && (
 
-                <button className="sidebar-item logout">
+                            <span className="sidebar-text">
+
+                                {item.title}
+
+                            </span>
+
+                        )}
+
+                    </NavLink>
+
+                ))}
+
+
+                {/* LOGOUT */}
+
+                <button
+                    className="sidebar-item logout"
+                    type="button"
+                >
 
                     <span className="sidebar-icon">
 
-                        <FiLogOut/>
+                        <FiLogOut />
 
                     </span>
 
-                    {
-                        sidebarOpen &&
+                    {sidebarOpen && (
 
                         <span className="sidebar-text">
 
                             Logout
 
                         </span>
-                    }
+
+                    )}
 
                 </button>
 
@@ -155,8 +172,8 @@ const Sidebar = ({ sidebarOpen }) => {
 
         </aside>
 
-    )
+    );
 
-}
+};
 
 export default Sidebar;

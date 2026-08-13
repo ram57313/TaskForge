@@ -4,19 +4,30 @@ import TaskCard from "../TaskCard/TaskCard";
 import EmptyState from "./EmptyList";
 import TaskToolbar from "../TaskToolbar/TaskToolbar";
 
+
 const TaskList = ({
     tasks = [],
+
     search,
     setSearch,
+
     statusFilter,
     setStatusFilter,
+
     sortBy,
     setSortBy,
+
     openCreateTaskModal,
+
     onEdit,
-    // onArchive,
-    // onDelete, 
-    onToggle
+
+    onDelete,
+
+    onToggle,
+
+    onArchive,
+    onRestore,
+    isArchivedview=false
 }) => {
 
     return (
@@ -24,47 +35,74 @@ const TaskList = ({
         <section className="task-list-container">
 
             <TaskToolbar
+
                 taskCount={tasks.length}
+
                 search={search}
                 setSearch={setSearch}
+
                 statusFilter={statusFilter}
                 setStatusFilter={setStatusFilter}
+
                 sortBy={sortBy}
                 setSortBy={setSortBy}
+
                 openTaskModal={openCreateTaskModal}
+
             />
 
+
             {
-                tasks.length === 0 ? (
 
-                    <EmptyState
-                        openTaskModal={openCreateTaskModal}
-                    />
+                tasks.length === 0
 
-                ) : (
+                    ? (
 
-                    <div className="task-list">
+                        <EmptyState
+                            openTaskModal={
+                                openCreateTaskModal
+                            }
+                        />
 
-                        {
+                    )
 
-                            tasks.map(task => (
+                    : (
 
-                                <TaskCard
-                                    key={task._id}
-                                    task={task}
-                                    onEdit={onEdit}
-                                    // onArchive={onArchive}
-                                    // onDelete={onDelete}
-                                    onToggle={onToggle}
-                                />
+                        <div className="task-list">
 
-                            ))
+                            {
 
-                        }
+                                tasks.map(task => (
 
-                    </div>
+                                    <TaskCard
 
-                )
+                                        key={task._id}
+
+                                        task={task}
+
+                                        onEdit={onEdit}
+
+                                        onDelete={onDelete}
+
+                                        onToggle={onToggle}
+
+                                       onArchive={onArchive}
+
+                                       onRestore={onRestore}
+
+                                       isArchivedview={isArchivedview}
+
+
+                                    />
+
+                                ))
+
+                            }
+
+                        </div>
+
+                    )
+
             }
 
         </section>

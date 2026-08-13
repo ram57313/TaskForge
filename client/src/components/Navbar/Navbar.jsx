@@ -1,100 +1,150 @@
 import "./Navbar.css";
 
 import {
-  FiMenu,
-  FiSearch,
-  FiBell,
-  FiPlus
+    FiMenu,
+    FiSearch,
+    FiBell,
+    FiPlus
 } from "react-icons/fi";
 
-const Navbar =  ({
+import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "../../context/AuthContext";
+
+
+const Navbar = ({
     toggleSidebar,
     sidebarOpen,
     openCreateTaskModal
 }) => {
 
-  return (
+    const navigate = useNavigate();
 
-    <header className="navbar">
+    const { user } = useAuth();
 
-      {/* LEFT */}
 
-      <div className="navbar-left">
+    return (
 
-        <button
-          className="menu-btn"
-          onClick={toggleSidebar}
-        >
-          <FiMenu
-    className={sidebarOpen ? "menu-open" : "menu-closed"}
-/>
-        </button>
+        <header className="navbar">
 
-        <button className="logo-btn">
-            <h2 className="logo">
-                Task<span>Forge</span>
-            </h2>
-        </button>
 
-      </div>
+            {/* LEFT */}
 
-      {/* CENTER */}
+            <div className="navbar-left">
 
-      <div className="navbar-center">
+                <button
+                    className="menu-btn"
+                    onClick={toggleSidebar}
+                    type="button"
+                >
 
-        <div className="search-box">
+                    <FiMenu
+                        className={
+                            sidebarOpen
+                                ? "menu-open"
+                                : "menu-closed"
+                        }
+                    />
 
-          <FiSearch className="search-icon"/>
+                </button>
 
-          <input
-            type="text"
-            placeholder="Search tasks..."
-            autoComplete="off"
-          />
 
-        </div>
+                <button
+                    className="logo-btn"
+                    type="button"
+                    onClick={() =>
+                        navigate("/dashboard")
+                    }
+                >
 
-      </div>
+                    <h2 className="logo">
 
-      {/* RIGHT */}
+                        Task<span>Forge</span>
 
-      <div className="navbar-right">
+                    </h2>
 
-        <button
+                </button>
 
-    className="new-task-btn"
+            </div>
 
-    onClick={openCreateTaskModal}
 
->
+            {/* CENTER */}
 
-          <FiPlus/>
+            <div className="navbar-center">
 
-          <span>New Task</span>
+                <div className="search-box">
 
-        </button>
+                    <FiSearch
+                        className="search-icon"
+                    />
 
-        <button className="icon-btn">
+                    <input
+                        type="text"
+                        placeholder="Search tasks..."
+                        autoComplete="off"
+                    />
 
-          <FiBell/>
+                </div>
 
-        </button>
+            </div>
 
-        {/* Placeholder */}
 
-        <button className="profile-preview">
+            {/* RIGHT */}
 
-            <span className="avatar">
-                R
-            </span>
+            <div className="navbar-right">
 
-        </button>
 
-      </div>
+                <button
+                    className="new-task-btn"
+                    onClick={openCreateTaskModal}
+                    type="button"
+                >
 
-    </header>
+                    <FiPlus />
 
-  );
+                    <span>
+                        New Task
+                    </span>
+
+                </button>
+
+
+                <button
+                    className="icon-btn"
+                    type="button"
+                    aria-label="Notifications"
+                >
+
+                    <FiBell />
+
+                </button>
+
+
+                <button
+                    className="profile-preview"
+                    type="button"
+                    onClick={() =>
+                        navigate("/profile")
+                    }
+                    aria-label="Open profile"
+                >
+
+                    <span className="avatar">
+
+                        {user?.name
+                            ?.charAt(0)
+                            .toUpperCase() || "U"
+                        }
+
+                    </span>
+
+                </button>
+
+            </div>
+
+        </header>
+
+    );
 
 };
 

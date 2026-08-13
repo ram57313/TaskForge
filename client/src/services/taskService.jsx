@@ -2,40 +2,50 @@ import api from "../api/axios";
 
 const taskService = {
 
-    // Get all tasks
+    // ================= GET ALL =================
 
-    getAllTasks: async () => {
-        
-        const res = await api.get("/tasks");
+    getAllTasks: async (params = {}) => {
+
+        const res = await api.get(
+            "/tasks",
+            {
+                params
+            }
+        );
 
         return res.data;
 
     },
 
-    // Get single task
+
+    // ================= GET ONE =================
 
     getTask: async (id) => {
 
-        const res = await api.get(`/tasks/${id}`);
+        const res = await api.get(
+            `/tasks/${id}`
+        );
 
         return res.data;
 
     },
 
-    // Create task
+
+    // ================= CREATE =================
 
     createTask: async (taskData) => {
-     console.log("Sending:", taskData);
-    const res = await api.post(
-        "/tasks/createTask",
-        taskData
-    );
 
-    return res.data;
+        const res = await api.post(
+            "/tasks/createTask",
+            taskData
+        );
 
-},
+        return res.data;
 
-    // Update task
+    },
+
+
+    // ================= UPDATE =================
 
     updateTask: async (id, taskData) => {
 
@@ -48,7 +58,8 @@ const taskService = {
 
     },
 
-    // Soft delete
+
+    // ================= SOFT DELETE =================
 
     deleteTask: async (id) => {
 
@@ -60,7 +71,8 @@ const taskService = {
 
     },
 
-    // Restore
+
+    // ================= RESTORE =================
 
     restoreTask: async (id) => {
 
@@ -72,12 +84,38 @@ const taskService = {
 
     },
 
-    // Toggle completed / pending
+
+    // ================= TOGGLE STATUS =================
 
     toggleStatus: async (id) => {
 
         const res = await api.patch(
             `/tasks/toggleStatus/${id}`
+        );
+
+        return res.data;
+
+    },
+
+    // ================= ARCHIVE =================
+
+    archiveTask: async (id) => {
+
+        const res = await api.patch(
+            `/tasks/archiveTask/${id}` 
+        );
+
+        return res.data;
+
+    },
+
+
+// ================= RESTORE ARCHIVED =================
+
+    restoreArchivedTask: async (id) => {
+
+        const res = await api.patch(
+            `/tasks/restoreArchivedTask/${id}`
         );
 
         return res.data;

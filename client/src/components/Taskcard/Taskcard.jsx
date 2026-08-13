@@ -1,40 +1,44 @@
-import "./TaskCard.css";
+import "./Taskcard.css";
 
 import {
-
     FiEdit2,
-
-    FiArchive,
-
     FiTrash2,
-
     FiCalendar,
-
-    FiFolder
-
+    FiFolder,
+    FiArchive,
+    FiRotateCcw
 } from "react-icons/fi";
+
 
 const TaskCard = ({
     task,
     onEdit,
-    onArchive,
     onDelete,
-    onToggle
+    onToggle,
+    onArchive,
+    isArchivedView,
+    onRestore
 }) => {
 
-    return(
+    return (
 
         <div
-    className={`task-card ${
-        task.status ? "completed-card" : ""
-    }`}
->
+            className={`task-card ${
+                task.status
+                    ? "completed-card"
+                    : ""
+            }`}
+        >
+
+            {/* HEADER */}
 
             <div className="task-header">
 
                 <button
                     className={`status-btn ${
-                        task.status==true ? "completed" : ""
+                        task.status
+                            ? "completed"
+                            : ""
                     }`}
                     onClick={() => onToggle(task)}
                     aria-label={
@@ -42,35 +46,42 @@ const TaskCard = ({
                             ? "Mark as pending"
                             : "Mark as completed"
                     }
+                    type="button"
                 >
 
-    <span className="status-circle"></span>
+                    <span className="status-circle"></span>
 
-</button>
+                </button>
+
 
                 <div className="task-content">
 
-                    <h3
-                        className={
-                            task.status
-                            ? "completed-title"
-                            : ""
-                        }
-                    >
+                     <div className="task-title-row">
 
-                        {task.title}
+                            <span
+                                className={`priority-dot priority-${task.priority?.toLowerCase()}`}
+                                title={`${task.priority} priority`}
+                            />
 
-                    </h3>
+                            <h3
+                                className={
+                                    task.status
+                                    ? "completed-title"
+                                    : ""
+                                }
+                            >
+                                {task.title}
+                            </h3>
 
-                    <p>
+                    </div>
 
-                        {task.description}
-
-                    </p>
 
                 </div>
 
             </div>
+
+
+            {/* FOOTER */}
 
             <div className="task-footer">
 
@@ -78,72 +89,139 @@ const TaskCard = ({
 
                     <span>
 
-                        <FiFolder/>
+                        <FiFolder />
 
                         {task.category}
 
                     </span>
 
+
                     <span>
 
-                        <FiCalendar/>
+                        <FiCalendar />
 
-                        <p className="task-date">
-    {new Date(task.dueDate).toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-    })}
-</p>
+                        <span className="task-date">
+
+                            {task.dueDate
+                                ? new Date(
+                                    task.dueDate
+                                ).toLocaleDateString(
+                                    "en-IN",
+                                    {
+                                        day: "numeric",
+                                        month: "short",
+                                        year: "numeric"
+                                    }
+                                )
+                                : "No due date"
+                            }
+
+                        </span>
 
                     </span>
 
                 </div>
 
+
                 <div className="task-actions">
 
+    {
+        isArchivedView ? (
 
-                      
-                    <button
-                        onClick={() => onEdit(task)}
-                        disabled={task.status}
-                        className={task.status ? "disabled-btn" : ""}
-                        title={
-                            task.status
-                                ? "Mark the task as pending to edit it"
-                                : "Edit Task"
-                        }
-                    >
+            <>
 
-                        <FiEdit2/>
+                <button
+                    className="restore-btn"
+                    onClick={() => onRestore(task)}
+                    title="Restore task"
+                    type="button"
+                >
 
-                    </button>
+                    <FiRotateCcw />
 
-                    <button
-                        onClick={()=>onArchive(task)}
-                    >
+                </button>
 
-                        <FiArchive/>
 
-                    </button>
+                <button
+                    className="delete-btn"
+                    onClick={() => onDelete(task)}
+                    title="Move to Trash"
+                    type="button"
+                >
 
-                    <button
-                        className="delete-btn"
-                        onClick={()=>onDelete(task)}
-                    >
+                    <FiTrash2 />
 
-                        <FiTrash2/>
+                </button>
 
-                    </button>
+            </>
 
-                </div>
+        ) : (
+
+            <>
+
+                {/* EDIT */}
+
+                <button
+                    onClick={() => onEdit(task)}
+                    disabled={task.status}
+                    className={
+                        task.status
+                            ? "disabled-btn"
+                            : ""
+                    }
+                    title={
+                        task.status
+                            ? "Mark the task as pending to edit it"
+                            : "Edit Task"
+                    }
+                    type="button"
+                >
+
+                    <FiEdit2 />
+
+                </button>
+
+
+                {/* ARCHIVE */}
+
+                <button
+                    className="archive-btn"
+                    onClick={() => onArchive(task)}
+                    title="Archive task"
+                    type="button"
+                >
+
+                    <FiArchive />
+
+                </button>
+
+
+                {/* DELETE */}
+
+                <button
+                    className="delete-btn"
+                    onClick={() => onDelete(task)}
+                    title="Move to Trash"
+                    type="button"
+                >
+
+                    <FiTrash2 />
+
+                </button>
+
+            </>
+
+        )
+    }
+
+</div>
 
             </div>
 
         </div>
 
-    )
+    );
 
-}
+};
 
 export default TaskCard;

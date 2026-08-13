@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import "./Dashboard.css";
 
-import Navbar from "../components/Navbar/Navbar.jsx";
-import Sidebar from "../components/Sidebar/Sidebar.jsx";
 import WelcomeCard from "../components/WelcomeCard/WelcomeCard.jsx";
 import Stats from "../components/Stats/Stats.jsx";
 import TaskList from "../components/TaskList/TaskList.jsx";
@@ -12,80 +12,135 @@ import taskService from "../services/taskService";
 
 const Dashboard = () => {
 
-    const [sidebarOpen, setSidebarOpen] = useState(() => {
-        const savedState = localStorage.getItem("sidebarOpen");
-        return savedState !== null ? JSON.parse(savedState) : true;
-    });
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const [tasks, setTasks] = useState([]);
+
     const [loadingTasks, setLoadingTasks] = useState(true);
 
     const [search, setSearch] = useState("");
+
     const [statusFilter, setStatusFilter] = useState("All");
+
     const [sortBy, setSortBy] = useState("Newest");
 
     const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+
     const [isCreatingTask, setIsCreatingTask] = useState(false);
 
-    // Edit Mode
     const [editingTask, setEditingTask] = useState(null);
+
     const [isEditMode, setIsEditMode] = useState(false);
 
-    const toggleSidebar = () => {
+    const [isArchivedView, setIsArchivedView] = useState(false);
 
-        const newState = !sidebarOpen;
 
-        setSidebarOpen(newState);
-
-        localStorage.setItem(
-            "sidebarOpen",
-            JSON.stringify(newState)
-        );
-
-    };
+    // ---------------- FETCH TASKS ----------------
 
     const fetchTasks = async () => {
 
-        try {
+    try {
 
-            setLoadingTasks(true);
+        setLoadingTasks(true);
 
-            const res = await taskService.getAllTasks();
 
-           const fetchedTasks = Array.isArray(res.tasks)? res.tasks:[];
+        const params = {};
 
-            fetchedTasks.sort((a, b) => {
 
-                if (a.status === b.status) return 0;
+        // Search
+        
+        if (isArchivedView) {
 
-                return a.status ? 1 : -1;
-            });
+            params.isArchived = "true";
 
-            setTasks(fetchedTasks);
+            }
 
-        }
+        if (search.trim()) {
 
-        catch (err) {
-
-            console.error(err);
+            params.search = search.trim();
 
         }
 
-        finally {
 
-            setLoadingTasks(false);
+        // Status
+
+        if (statusFilter === "Completed") {
+
+            params.status = "completed";
 
         }
 
-    };
+        else if (statusFilter === "Pending") {
+
+            params.status = "pending";
+
+        }
+
+
+        // Sort
+
+        if (sortBy === "Oldest") {
+
+            params.sort = "oldest";
+
+        }
+
+        else if (sortBy === "A-Z") {
+
+            params.sort = "az";
+
+        }
+
+        else {
+
+            params.sort = "newest";
+
+        }
+
+
+        const res =
+            await taskService.getAllTasks(params);
+
+
+        setTasks(
+            Array.isArray(res.tasks)
+                ? res.tasks
+                : []
+        );
+
+    }
+
+    catch (err) {
+
+        console.error(err);
+
+    }
+
+    finally {
+
+        setLoadingTasks(false);
+
+    }
+
+};
+
 
     useEffect(() => {
 
+    const timer = setTimeout(() => {
+
         fetchTasks();
 
-    }, []);
+    }, 300);
 
-    // ---------------- CREATE ----------------
+
+    return () => clearTimeout(timer);
+
+}, [search, statusFilter,sortBy,isArchivedView]);
+
+
+    // ---------------- OPEN CREATE MODAL ----------------
 
     const openCreateTaskModal = () => {
 
@@ -97,7 +152,8 @@ const Dashboard = () => {
 
     };
 
-    // ---------------- EDIT ----------------
+
+    // ---------------- OPEN EDIT MODAL ----------------
 
     const openEditTaskModal = (task) => {
 
@@ -109,7 +165,8 @@ const Dashboard = () => {
 
     };
 
-    // ---------------- CLOSE ----------------
+
+    // ---------------- CLOSE MODAL ----------------
 
     const closeTaskModal = () => {
 
@@ -120,6 +177,28 @@ const Dashboard = () => {
         setIsTaskModalOpen(false);
 
     };
+
+
+    // ---------------- NAVBAR CREATE TASK ----------------
+
+    useEffect(() => {
+
+        if (location.state?.openCreateTask) {
+
+            openCreateTaskModal();
+
+            // Clear navigation state so refreshing
+            // the dashboard doesn't open the modal again.
+
+            navigate(location.pathname, {
+                replace: true,
+                state: {}
+            });
+
+        }
+
+    }, [location, navigate]);
+
 
     // ---------------- CREATE ----------------
 
@@ -150,6 +229,7 @@ const Dashboard = () => {
         }
 
     };
+
 
     // ---------------- UPDATE ----------------
 
@@ -184,11 +264,52 @@ const Dashboard = () => {
 
     };
 
+
+    // ---------------- TOGGLE STATUS ----------------
+
     const handleToggleStatus = async (task) => {
+
+        try {
+
+            await taskService.toggleStatus(task._id);
+
+            await fetchTasks();
+
+        }
+
+        catch (err) {
+
+            console.error(err);
+
+        }
+
+    };
+    
+    const handleDeleteTask = async (task) => {
 
     try {
 
-        await taskService.toggleStatus(task._id);
+        await taskService.deleteTask(task._id);
+
+        await fetchTasks();
+
+    }
+
+    catch (err) {
+
+        console.error(err);
+
+    }
+ 
+};
+
+const handleArchiveTask = async (task) => {
+
+    try {
+
+        await taskService.archiveTask(
+            task._id
+        );
 
         await fetchTasks();
 
@@ -204,56 +325,36 @@ const Dashboard = () => {
 
     return (
 
-        <div className="dashboard">
+        <>
 
-            <Navbar
-                sidebarOpen={sidebarOpen}
-                toggleSidebar={toggleSidebar}
+            <WelcomeCard />
+
+            <Stats />
+
+            <TaskList
+
+                tasks={tasks}
+
+                search={search}
+                setSearch={setSearch}
+
+                statusFilter={statusFilter}
+                setStatusFilter={setStatusFilter}
+
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+
                 openCreateTaskModal={openCreateTaskModal}
+
+                onEdit={openEditTaskModal}
+
+                onToggle={handleToggleStatus}
+                 onDelete={handleDeleteTask}
+
+                 onArchive={handleArchiveTask}
+
             />
 
-            <div className="dashboard-body">
-
-                <Sidebar
-                    sidebarOpen={sidebarOpen}
-                />
-
-                <main
-                    className={`dashboard-main ${
-                        sidebarOpen
-                            ? "sidebar-open"
-                            : "sidebar-closed"
-                    }`}
-                >
-
-                    <WelcomeCard />
-
-                    <Stats />
-
-                    <TaskList
-
-                        tasks={tasks}
-
-                        search={search}
-                        setSearch={setSearch}
-
-                        statusFilter={statusFilter}
-                        setStatusFilter={setStatusFilter}
-
-                        sortBy={sortBy}
-                        setSortBy={setSortBy}
-
-                        openCreateTaskModal={openCreateTaskModal}
-
-                        onEdit={openEditTaskModal}
-
-                        onToggle={handleToggleStatus}
-
-                    />
-
-                </main>
-
-            </div>
 
             <AddTaskModal
 
@@ -275,7 +376,7 @@ const Dashboard = () => {
 
             />
 
-        </div>
+        </>
 
     );
 

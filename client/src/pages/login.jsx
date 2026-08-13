@@ -35,6 +35,7 @@ export default function Login() {
 
       if(!email||!password){
         toast.error("please fill all fields");
+        return ;
       }
 
      try{

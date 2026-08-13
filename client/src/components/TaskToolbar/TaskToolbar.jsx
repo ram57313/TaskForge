@@ -63,7 +63,7 @@ const TaskToolbar = ({
             "All",
             "Completed",
             "Pending",
-            "Archived"
+            // "Archived"
         ]}
         value={statusFilter || "All"}
         onChange={setStatusFilter}
