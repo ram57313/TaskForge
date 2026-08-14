@@ -4,6 +4,7 @@ import TaskCard from "../TaskCard/TaskCard";
 import EmptyState from "./EmptyList";
 import TaskToolbar from "../TaskToolbar/TaskToolbar";
 
+import { FiSearch } from "react-icons/fi";
 
 const TaskList = ({
     tasks = [],
@@ -29,6 +30,7 @@ const TaskList = ({
     onRestore,
     isArchivedview=false
 }) => {
+     const isFiltering=search?.trim()!==""||statusFilter!=="All";
 
     return (
 
@@ -54,10 +56,26 @@ const TaskList = ({
 
             {
 
-                tasks.length === 0
+                tasks.length === 0? 
+                
+                    (isFiltering?(
 
-                    ? (
+                        <div className="no-results-state">
 
+                            <FiSearch className="no-results-icon" />
+
+                            <h2>
+                                No Tasks Found
+                            </h2>
+
+                            <p>
+                                No tasks match your current search or filter.
+                            </p>
+
+                        </div>
+
+                    )
+                    :(
                         <EmptyState
                             openTaskModal={
                                 openCreateTaskModal
@@ -65,6 +83,7 @@ const TaskList = ({
                         />
 
                     )
+                )
 
                     : (
 
