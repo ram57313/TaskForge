@@ -19,7 +19,7 @@ router.route('/updateMe').patch(authController.protect,userController.updateMe);
 router.route('/deleteMe').patch(authController.protect,userController.deleteMe);//permanent deletion for now
 router.route('/restoreUser').patch(userController.restoreUser);
 
-router.route('/forgotPassword').post(authController.protect,authController.forgotPassword)
+router.route('/forgotPassword').post(authController.forgotPassword)
 router.route('/updatePassword').post(authController.protect,authController.updatePassword)
 router.patch('/resetPassword/:token', authController.resetPassword);
 

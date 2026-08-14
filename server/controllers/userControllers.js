@@ -42,23 +42,63 @@ exports.getMe=(req,res,next)=>{
     next();
 }
 
-exports.updateMe=catchAsync(async(req,res,next)=>{
-    if(req.body.password||req.body.passwordConfirm){
-        return next(new AppError("Use UpdatePassword Route for updating your password",400));
+exports.updateMe = catchAsync(async (req, res, next) => {
+
+    if (
+        req.body.password ||
+        req.body.passwordConfirm ||
+        req.body.confirmPassword
+    ) {
+
+        return next(
+            new AppError(
+                "Use UpdatePassword Route for updating your password",
+                400
+            )
+        );
+
     }
 
-    const filteredBody=filterObj(req.body,'name','email');
 
-    const updatedUser=await User.findByIdAndUpdate(req.user._id,filteredBody,{
-        new:true,
-        runValidators:true
-    })
-    
+    const filteredBody = filterObj(
+        req.body,
+        "name",
+        "email"
+    );
+
+
+    const updatedUser =
+        await User.findByIdAndUpdate(
+            req.user._id,
+            filteredBody,
+            {
+                new: true,
+                runValidators: true
+            }
+        );
+
+
+    if (!updatedUser) {
+
+        return next(
+            new AppError(
+                "Unable to update user",
+                404
+            )
+        );
+
+    }
+
+
     res.status(200).json({
-        status:"success",
-        user:updatedUser
-    })
-})
+
+        status: "success",
+
+        user: updatedUser
+
+    });
+
+});
 
 exports.deleteMe=catchAsync(async(req,res,next)=>{//this should be there as there is  difference between logout and deleting account
     const user=await User.findByIdAndUpdate(req.user.id,{

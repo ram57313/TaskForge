@@ -13,5 +13,8 @@ router.route("/restoreTask/:id").patch(taskController.restoreTask);
 router.route("/createTask").post(taskController.createTask);
 router.route("/updateTask/:id").patch(taskController.updateTask);
 router.route("/toggleStatus/:id").patch(taskController.toggleStatusOfTask);
+router.route("/archiveTask/:id").patch(taskController.archiveTask);
+
+router.route("/restoreArchivedTask/:id").patch(taskController.restoreArchivedTask);
 
 module.exports=router;
