@@ -190,6 +190,7 @@ exports.getTask = catchAsync(async (req, res, next) => {
     res.status(200).json({
 
         status: "success",
+        
 
         task
 
@@ -206,10 +207,12 @@ exports.deleteTaskPermanent = catchAsync(async (req, res, next) => {
 
         _id: req.params.id,
 
-        user: req.user._id
+        user: req.user._id,
+        
+        isDeleted:true
 
     });
-
+   
 
     if (!task) {
 
@@ -226,6 +229,8 @@ exports.deleteTaskPermanent = catchAsync(async (req, res, next) => {
     res.status(204).json({
 
         status: "success",
+
+        message:"task deleted successfully",
 
         data: null
 
@@ -580,6 +585,155 @@ exports.restoreArchivedTask = catchAsync(async (req, res, next) => {
         message: "Task restored successfully",
 
         task
+
+    });
+
+});
+
+// ================= GET TASK STATS =================
+
+exports.getTaskStats = catchAsync(async (req, res, next) => {
+
+    const userId = req.user._id;
+
+    const stats = await Task.aggregate([
+
+        {
+            $match: {
+                user: userId
+            }
+        },
+
+        {
+            $group: {
+
+                _id: null,
+
+                total: {
+                    $sum: {
+                        $cond: [
+                            {
+                                $and: [
+                                    { $eq: ["$isDeleted", false] },
+                                    { $eq: ["$isArchived", false] }
+                                ]
+                            },
+                            1,
+                            0
+                        ]
+                    }
+                },
+
+                completed: {
+                    $sum: {
+                        $cond: [
+                            {
+                                $and: [
+                                    { $eq: ["$isDeleted", false] },
+                                    { $eq: ["$isArchived", false] },
+                                    { $eq: ["$status", true] }
+                                ]
+                            },
+                            1,
+                            0
+                        ]
+                    }
+                },
+
+                pending: {
+                    $sum: {
+                        $cond: [
+                            {
+                                $and: [
+                                    { $eq: ["$isDeleted", false] },
+                                    { $eq: ["$isArchived", false] },
+                                    { $eq: ["$status", false] }
+                                ]
+                            },
+                            1,
+                            0
+                        ]
+                    }
+                },
+
+                archived: {
+                    $sum: {
+                        $cond: [
+                            {
+                                $and: [
+                                    { $eq: ["$isDeleted", false] },
+                                    { $eq: ["$isArchived", true] }
+                                ]
+                            },
+                            1,
+                            0
+                        ]
+                    }
+                },
+
+                deleted: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ["$isDeleted", true] },
+                            1,
+                            0
+                        ]
+                    }
+                }
+
+            }
+        },
+
+        {
+            $project: {
+
+                _id: 0,
+
+                total: 1,
+                completed: 1,
+                pending: 1,
+                archived: 1,
+                deleted: 1,
+
+                completionRate: {
+                    $cond: [
+                        { $eq: ["$total", 0] },
+                        0,
+                        {
+                            $multiply: [
+                                {
+                                    $divide: [
+                                        "$completed",
+                                        "$total"
+                                    ]
+                                },
+                                100
+                            ]
+                        }
+                    ]
+                }
+
+            }
+        }
+
+    ]);
+
+
+    const result = stats[0] || {
+        total: 0,
+        completed: 0,
+        pending: 0,
+        archived: 0,
+        deleted: 0,
+        completionRate: 0
+    };
+
+
+    res.status(200).json({
+
+        status: "success",
+
+        stats: result
 
     });
 
