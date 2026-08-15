@@ -3,7 +3,7 @@ import "./WelcomeCard.css";
 import { FiPlus } from "react-icons/fi";
 import { MdOutlineWavingHand } from "react-icons/md";
 
-const WelcomeCard = () => {
+const WelcomeCard = ({stats}) => {
 
     const hour = new Date().getHours();
 
@@ -18,8 +18,8 @@ const WelcomeCard = () => {
     // Temporary until backend is connected
     const userName = "Ramcharan";
 
-    const completedTasks = 12;
-    const totalTasks = 20;
+    const completedTasks = stats.completed;
+    const totalTasks = stats.total;
 
     const progress =
         totalTasks === 0

@@ -3,7 +3,29 @@ import { FiRotateCcw, FiTrash2 } from "react-icons/fi";
 
 import taskService from "../services/taskService";
 
+
 import "./DeletedTasks.css";
+import toast from "react-hot-toast";
+
+
+const getPriorityClass = (priority) => {
+        switch (priority?.toLowerCase()) {
+            case "high":
+                return "deleted-priority-high";
+
+            case "medium":
+                return "deleted-priority-medium";
+
+            case "low":
+                return "deleted-priority-low";
+
+            default:
+                return "";
+        }
+    };
+
+ 
+
 
 
 const DeletedTasks = () => {
@@ -13,7 +35,7 @@ const DeletedTasks = () => {
     const [loading, setLoading] = useState(true);
 
 
-    const fetchDeletedTasks = async () => {
+     const fetchDeletedTasks = async () => {
 
         try {
 
@@ -73,6 +95,22 @@ const DeletedTasks = () => {
         }
 
     };
+
+    const handlePermanentDelete=async(task)=>{
+    try{
+      const res= await taskService.deleteTaskPermanent(task._id);
+
+
+       await fetchDeletedTasks();
+
+       toast.success(res.message||"task deleted successfully");
+
+    }catch(err){
+         
+        toast.error(err.message||"something went wrong");
+        console.log(err);
+    }
+}   
 
 
     if (loading) {
@@ -170,6 +208,16 @@ const DeletedTasks = () => {
 
                                             </h3>
 
+                                             {task.priority && (
+                                            <span
+                                                className={`deleted-priority ${getPriorityClass(
+                                                    task.priority
+                                                )}`}
+                                            >
+                                                {task.priority}
+                                            </span>
+                                        )}
+
                                             <p>
 
                                                 {task.description}
@@ -198,26 +246,39 @@ const DeletedTasks = () => {
 
                                         </div>
 
+                                        
 
-                                        <button
-                                            className="restore-btn"
-                                            onClick={() =>
-                                                handleRestore(
-                                                    task
-                                                )
-                                            }
-                                            type="button"
-                                        >
 
-                                            <FiRotateCcw />
+                                        <div className="deleted-task-actions">
 
-                                            <span>
+                                            <button
+                                                className="restore-btn"
+                                                onClick={() =>
+                                                    handleRestore(task)
+                                                }
+                                                type="button"
+                                            >
+                                                <FiRotateCcw />
 
-                                                Restore
+                                                <span>
+                                                    Restore
+                                                </span>
+                                            </button>
 
-                                            </span>
 
-                                        </button>
+                                            <button
+                                                className="permanent-delete-btn"
+                                                onClick={() =>
+                                                    handlePermanentDelete(task)
+
+                                                }
+                                                type="button"
+                                                title="Delete permanently"
+                                            >
+                                                <FiTrash2 />
+                                            </button>
+
+                                        </div>
 
                                     </div>
 

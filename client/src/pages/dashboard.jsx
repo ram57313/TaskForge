@@ -9,6 +9,7 @@ import TaskList from "../components/TaskList/TaskList.jsx";
 import AddTaskModal from "../components/AddTaskModal/TaskModal.jsx";
 
 import taskService from "../services/taskService";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
 
@@ -34,6 +35,13 @@ const Dashboard = () => {
     const [isEditMode, setIsEditMode] = useState(false);
 
     const [isArchivedView, setIsArchivedView] = useState(false);
+
+    const[stats,setStats]=useState({total: 0,
+                                    completed: 0,
+                                    pending: 0,
+                                    archived: 0,
+                                    deleted: 0,
+                                    completionRate: 0})
 
 
     // ---------------- FETCH TASKS ----------------
@@ -132,6 +140,7 @@ const Dashboard = () => {
 
         fetchTasks();
 
+
     }, 300);
 
 
@@ -212,6 +221,8 @@ const Dashboard = () => {
 
             await fetchTasks();
 
+            await fetchStats();
+
             closeTaskModal();
 
         }
@@ -245,6 +256,8 @@ const Dashboard = () => {
             );
 
             await fetchTasks();
+            await fetchStats();
+
 
             closeTaskModal();
 
@@ -274,6 +287,7 @@ const Dashboard = () => {
             await taskService.toggleStatus(task._id);
 
             await fetchTasks();
+            await fetchStats();
 
         }
 
@@ -289,9 +303,11 @@ const Dashboard = () => {
 
     try {
 
-        await taskService.deleteTask(task._id);
+        const res=await taskService.deleteTask(task._id);
 
         await fetchTasks();
+        await fetchStats();
+        toast.success(res.message||"Task moved to trash");
 
     }
 
@@ -312,6 +328,7 @@ const handleArchiveTask = async (task) => {
         );
 
         await fetchTasks();
+        await fetchStats();
 
     }
 
@@ -323,13 +340,32 @@ const handleArchiveTask = async (task) => {
 
 };
 
+const fetchStats=async ()=>{
+
+    try{
+    
+        const res=await taskService.getTaskStats();
+
+    
+        setStats(res.stats);
+        console.log(res.stats);
+    }catch(err){
+        console.error(err);
+    }
+}
+
+useEffect(()=>{
+    fetchStats();
+},[]);
+
+
     return (
 
         <>
 
-            <WelcomeCard />
+            <WelcomeCard stats={stats} />
 
-            <Stats />
+            <Stats statsdata={stats}/>
 
             <TaskList
 

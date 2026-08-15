@@ -64,7 +64,7 @@ const taskService = {
     deleteTask: async (id) => {
 
         const res = await api.patch(
-            `/tasks/deleteTask/${id}`
+            `/tasks/deleteTaskTemp/${id}`
         );
 
         return res.data;
@@ -120,7 +120,24 @@ const taskService = {
 
         return res.data;
 
-    }
+    },
+
+    // ================= GET STATS =================
+
+  getTaskStats: async () => {
+
+    const res = await api.get(
+        "/tasks/stats"
+    );
+
+    return res.data;
+
+},
+
+  deleteTaskPermanent:async(id)=>{
+    const res=await api.delete(`/tasks/deleteTask/${id}`)
+    return res.data 
+  }
 
 };
 

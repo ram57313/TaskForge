@@ -9,34 +9,39 @@ import {
 
 import StatCard from "./StatCard";
 
-const Stats = () => {
 
+const Stats = ({statsdata}) => {
+   
+
+
+
+ 
     const stats = [
 
         {
             title:"Total Tasks",
-            value:24,
-            subtitle:"+4 today",
+            value:statsdata.total,
+            subtitle:"none",
             icon:FiClipboard
         },
 
         {
             title:"Completed",
-            value:16,
+            value:statsdata.completed,
             subtitle:"67% done",
             icon:FiCheckCircle
         },
 
         {
             title:"Pending",
-            value:6,
+            value:statsdata.pending,
             subtitle:"Needs attention",
             icon:FiClock
         },
 
         {
-            title:"Archived",
-            value:2,
+            title:"Archived", 
+            value:statsdata.archived,
             subtitle:"Older tasks",
             icon:FiArchive
         }
