@@ -202,6 +202,8 @@ const DeletedTasks = () => {
 
                                         <div className="deleted-task-info">
 
+                                            <div className="deleted-task-main">
+
                                             <h3>
 
                                                 {task.title}
@@ -217,6 +219,9 @@ const DeletedTasks = () => {
                                                 {task.priority}
                                             </span>
                                         )}
+                                            </div>
+
+
 
                                             <p>
 

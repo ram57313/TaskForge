@@ -260,6 +260,12 @@
     letter-spacing: 0.4px;
 }
 
+.deleted-task-main{
+    display: flex;
+    flex-direction: row;
+    gap:10px;
+}
+
 .deleted-task-info .deleted-priority-high {
     background: rgba(239, 68, 68, 0.1);
     color: #f87171;
