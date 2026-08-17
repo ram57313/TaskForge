@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FiRotateCcw, FiTrash2 } from "react-icons/fi";
 
 import taskService from "../services/taskService";
-
+import ConfirmModal from "../components/ConfirmModal/ConfirmModal";
 
 import "./DeletedTasks.css";
 import toast from "react-hot-toast";
@@ -33,6 +33,9 @@ const DeletedTasks = () => {
     const [tasks, setTasks] = useState([]);
 
     const [loading, setLoading] = useState(true);
+
+    const [showModal,setShowModal]=useState(false);
+    const [selectedTask,setSelectedTask]=useState(null);
 
 
      const fetchDeletedTasks = async () => {
@@ -96,21 +99,34 @@ const DeletedTasks = () => {
 
     };
 
-    const handlePermanentDelete=async(task)=>{
-    try{
-      const res= await taskService.deleteTaskPermanent(task._id);
+    const handlePermanentDelete=async()=>{
 
+        if(!selectedTask)return ;
 
-       await fetchDeletedTasks();
+        try{
 
-       toast.success(res.message||"task deleted successfully");
+        const res= await taskService.deleteTaskPermanent(selectedTask._id);
 
-    }catch(err){
-         
-        toast.error(err.message||"something went wrong");
-        console.log(err);
+        setShowModal(false);
+        setSelectedTask(null);
+
+        await fetchDeletedTasks();
+
+        toast.success(res.message||"task deleted successfully");
+
+        }catch(err){
+            
+            toast.error(err.message||"something went wrong");
+            console.log(err);
+        }
+    }   
+
+    const openTaskModal=async (task)=>{
+        setSelectedTask(task);
+        setShowModal(true);
     }
-}   
+
+
 
 
     if (loading) {
@@ -274,8 +290,7 @@ const DeletedTasks = () => {
                                             <button
                                                 className="permanent-delete-btn"
                                                 onClick={() =>
-                                                    handlePermanentDelete(task)
-
+                                                    openTaskModal(task)
                                                 }
                                                 type="button"
                                                 title="Delete permanently"
@@ -295,6 +310,20 @@ const DeletedTasks = () => {
 
                     )
 
+            }
+
+            {
+                showModal&&(
+                    <ConfirmModal 
+                     title="Delete task permanenetly"
+                     message="This task will be permanently deleted and cannot be restored."
+                     onCancel={()=>{
+                        setShowModal(false);
+                        setSelectedTask(null);
+                     }}
+                     onConfirm={handlePermanentDelete}
+                    />
+                )
             }
 
         </section>

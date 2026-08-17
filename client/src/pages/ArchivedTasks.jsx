@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import ConfirmModal from "../components/ConfirmModal/ConfirmModal";
+
 import {
     FiArchive,
     FiSearch,
@@ -15,6 +17,9 @@ const ArchivedTasks = () => {
 
     const [tasks, setTasks] = useState([]);
     const [loadingTasks, setLoadingTasks] = useState(true);
+
+    const [showModal,setShowModal]=useState(false);
+    const [selectedTask,setSelectedTask]=useState(null);
 
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
@@ -56,12 +61,16 @@ const ArchivedTasks = () => {
         }
     };
 
-    const handleDelete = async (taskId) => {
+    const handleDelete = async () => {
+
+        if(!selectedTask)return ;
         try {
-            await taskService.deleteTask(taskId);
+            await taskService.deleteTask(selectedTask._id);
+            setShowModal(false);
+            setSelectedTask(null);
 
             setTasks((prevTasks) =>
-                prevTasks.filter((task) => task._id !== taskId)
+                prevTasks.filter((task) => task._id !== selectedTask._id)
             );
         } catch (error) {
             console.error("Error deleting task:", error);
@@ -93,6 +102,11 @@ const ArchivedTasks = () => {
                 return "";
         }
     };
+
+    const openConfirmModal=(task)=>{
+        setShowModal(true);
+        setSelectedTask(task);
+    }
 
     return (
         <div className="archived-tasks-page">
@@ -265,7 +279,7 @@ const ArchivedTasks = () => {
                                     <button
                                         className="archived-delete-btn"
                                         onClick={() =>
-                                            handleDelete(task._id)
+                                            openConfirmModal(task)
                                         }
                                         title="Delete task"
                                     >
@@ -283,6 +297,18 @@ const ArchivedTasks = () => {
                 )}
 
             </div>
+
+            {showModal&&(
+                <ConfirmModal 
+             title="Move to trash"
+             message="This task will be moved to trash and can be restored"
+             onCancel={()=>{
+                setShowModal(false);
+                setSelectedTask(null);
+             }}
+             onConfirm={handleDelete}
+            />
+            )}
 
         </div>
     );
