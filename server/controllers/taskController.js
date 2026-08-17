@@ -256,6 +256,8 @@ exports.deleteTaskTemp = catchAsync(async (req, res, next) => {
         {
             isDeleted: true,
 
+            isArchived:false,
+
             deletedAt: new Date()
 
         },
@@ -335,7 +337,7 @@ exports.updateTask = catchAsync(async (req, res, next) => {
         "category",
 
         "priority",
-
+ 
         "dueDate"
 
     );
