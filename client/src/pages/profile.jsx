@@ -371,7 +371,7 @@ const handleDeleteAccountConfirm = async () => {
                     </div>
 
 
-                    {!isEditing && (
+                    {!user.isGuest&&!isEditing && (
 
                         <button
                             className="profile-edit-btn"
@@ -547,7 +547,7 @@ const handleDeleteAccountConfirm = async () => {
 
             </div>
 
-            <div className="password-card">
+           {!user.isGuest&&(<div className="password-card">
 
     <div className="password-card-header">
 
@@ -770,7 +770,8 @@ const handleDeleteAccountConfirm = async () => {
 
     )}
 
-</div>
+</div>)     
+           } 
 
 
             {/* ================= DANGER ZONE ================= */}

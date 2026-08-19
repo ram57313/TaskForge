@@ -22,6 +22,8 @@ const getPriority=(priority)=>{
 
 }
 
+
+
 const TaskCard = ({
   task,
   onEdit,
@@ -31,6 +33,22 @@ const TaskCard = ({
   isArchivedView,
   onRestore,
 }) => {
+
+   const getOverdue=()=>{
+      if(!task.dueDate)return "";
+      
+      const currDate=new Date().getDate();
+      const taskDueDate=new Date(task.dueDate).getDate();
+
+      if(taskDueDate==currDate)return "task-today-due";
+
+      if(taskDueDate<currDate)return "task-yesterday-due";
+
+      return "";
+
+  }
+
+   
   return (
     <div className={`task-card ${task.status ? "completed-card" : ""}`}>
       {/* HEADER */}
@@ -74,7 +92,7 @@ const TaskCard = ({
           <span>
             <FiCalendar />
 
-            <span className="task-date">
+            <span className={`task-date ${getOverdue()}`}>
               {task.dueDate
                 ? new Date(task.dueDate).toLocaleDateString("en-IN", {
                     day: "numeric",

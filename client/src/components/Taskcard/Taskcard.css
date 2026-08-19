@@ -178,7 +178,7 @@
  .medium-priority {
 
     background: rgba(234, 179, 8, 0.1);
-    color: #facc15;
+    color: #facc15; 
 
 }
 
@@ -442,4 +442,14 @@ background: rgba(239, 68, 68, 0.1);
 
     color: #22c55e;
 
+}
+
+
+.task-today-due{
+    color:#facc15;
+}
+
+ 
+.task-yesterday-due{
+    color:#f87171;
 }
