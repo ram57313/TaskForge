@@ -44,6 +44,8 @@ exports.getMe=(req,res,next)=>{
 
 exports.updateMe = catchAsync(async (req, res, next) => {
 
+    if(req.user.isGuest)return next(new AppError("Guest accounts cannot perform this action",403));
+
     if (
         req.body.password ||
         req.body.passwordConfirm ||
