@@ -17,7 +17,7 @@ createRoot(document.getElementById("root")).render(
       <Toaster
         position="top-right"
         toastOptions={{
-          duration: 3000,
+          duration: 3000, 
         }}
       />
       </AuthProvider>

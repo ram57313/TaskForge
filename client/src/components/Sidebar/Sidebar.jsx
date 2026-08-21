@@ -1,4 +1,8 @@
+
 import "./Sidebar.css";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
+import { logout } from "../../api/authApi";
+import { useAuth } from "../../context/AuthContext";
 
 import {
     FiHome,
@@ -8,10 +12,15 @@ import {
     FiLogOut,
     FiArchive
 } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 import { NavLink } from "react-router-dom";
-
+import { useState } from "react";
 const Sidebar = ({ sidebarOpen }) => {
+
+    const {checkAuth}=useAuth();
+
+    const [isopenModal,setIsOpenModal]=useState(false);
 
     const menuItems = [
 
@@ -48,13 +57,30 @@ const Sidebar = ({ sidebarOpen }) => {
             title: "Settings",
             icon: <FiSettings />,
             path: "/settings"
-        }
+        },
 
     ];
 
 
-    return (
+    const handleLogout=async()=>{
+        try{
 
+            const res= await logout();
+            toast.success(res.data.message||"Logged out successful");
+            await checkAuth();
+             setIsOpenModal(false); 
+        }catch(error){
+            toast.error("Logout failed");
+        }
+    } 
+
+    const openModal=()=>{
+        setIsOpenModal(true);
+    }
+
+
+    return (
+          <>
         <aside
             className={`sidebar ${
                 sidebarOpen
@@ -140,38 +166,34 @@ const Sidebar = ({ sidebarOpen }) => {
 
                     </NavLink>
 
+
                 ))}
 
-
-                {/* LOGOUT */}
-
-                <button
-                    className="sidebar-item logout"
-                    type="button"
-                >
+                <button className="sidebar-item logout" type="button" onClick={()=>{
+                    openModal()
+                }}>
 
                     <span className="sidebar-icon">
-
-                        <FiLogOut />
-
+                       <FiLogOut/> 
                     </span>
 
-                    {sidebarOpen && (
-
+                    {sidebarOpen&&(
                         <span className="sidebar-text">
-
-                            Logout
-
+                             Logout
                         </span>
-
                     )}
 
                 </button>
+ 
 
             </div>
 
         </aside>
 
+        {isopenModal&&
+            (<ConfirmModal title="Logout" message="Are you sure you want to logout" onCancel={()=>{setIsOpenModal(false)}} onConfirm={handleLogout}/>)
+        }
+      </>
     );
 
 };

@@ -1,12 +1,17 @@
 import "./WelcomeCard.css";
 
 import { FiPlus } from "react-icons/fi";
+import {FaFacebook, FaFan, FaRegFrown, FaRegSadTear, FaUserSecret} from "react-icons/fa";
 import { MdOutlineWavingHand } from "react-icons/md";
+
+import {useAuth} from "../../context/AuthContext";
 
 const WelcomeCard = ({stats}) => {
 
-    const hour = new Date().getHours();
+    const {user}=useAuth();
 
+    const hour = new Date().getHours();
+ 
     let greeting = "Good Evening";
 
     if (hour < 12) {
@@ -16,7 +21,7 @@ const WelcomeCard = ({stats}) => {
     }
 
     // Temporary until backend is connected
-    const userName = "Ramcharan";
+    const userName =user.isGuest?"The' I'll Just Guest Login 'Guy ":user.name.toUpperCase();
 
     const completedTasks = stats.completed;
     const totalTasks = stats.total;

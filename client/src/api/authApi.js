@@ -36,7 +36,7 @@ export const guestLogin = async () => {
         "/users/guest-login",
         {
             withCredentials: true
-        }
+        } 
     );
 
 };
@@ -48,7 +48,7 @@ export const logout = async () => {
 
     return await api.post(
         "/users/logout"
-    );
+    ); 
 
 };
 

@@ -76,6 +76,9 @@ const TaskCard = ({
             </span>
 
           </div>
+          <div className="task-description">
+             {task.description}
+          </div>
         </div>
       </div>
 
@@ -89,9 +92,11 @@ const TaskCard = ({
             {task.category}
           </span>
 
-          <span>
-            <FiCalendar />
+         
 
+          { !task.status&&(
+             <span>
+            <FiCalendar />
             <span className={`task-date ${getOverdue()}`}>
               {task.dueDate
                 ? new Date(task.dueDate).toLocaleDateString("en-IN", {
@@ -101,7 +106,10 @@ const TaskCard = ({
                   })
                 : "No due date"}
             </span>
-          </span>
+            </span>
+          )
+          }  
+          
         </div>
 
         <div className="task-actions">

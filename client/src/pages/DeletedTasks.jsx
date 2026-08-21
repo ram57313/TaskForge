@@ -290,7 +290,7 @@ const DeletedTasks = () => {
                                             <button
                                                 className="permanent-delete-btn"
                                                 onClick={() =>
-                                                    openTaskModal(task)
+                                                     openTaskModal(task)
                                                 }
                                                 type="button"
                                                 title="Delete permanently"

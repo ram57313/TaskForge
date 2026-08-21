@@ -12,23 +12,23 @@ import StatCard from "./StatCard";
 
 const Stats = ({statsdata}) => {
    
+  const finished=((statsdata.total-statsdata.pending)*100)/statsdata.total;
 
+  const res=Number(finished.toFixed(0));
 
-
- 
     const stats = [
 
         {
             title:"Total Tasks",
             value:statsdata.total,
-            subtitle:"none",
+            subtitle:statsdata.total==0?"none":"Active",
             icon:FiClipboard
         },
 
         {
             title:"Completed",
             value:statsdata.completed,
-            subtitle:"67% done",
+            subtitle:`${res}% done`,
             icon:FiCheckCircle
         },
 
