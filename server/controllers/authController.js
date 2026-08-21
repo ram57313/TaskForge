@@ -86,11 +86,15 @@ exports.login=catchAsync(async(req,res,next)=>{
 })
 exports.logout=catchAsync(async(req,res,next)=>{
     
-        res.clearCookie('jwt');
-    
-        res.status(204).json({
+        res.clearCookie('jwt',{
+            httpOnly:true,
+            secure:false,
+            sameSite:"lax"
+        });
+     
+        res.status(200).json({
             status:"success",
-            message:"Logged Out Successfully",
+            message:"Logged out successfully",
             data:{
                 user:null
             }
