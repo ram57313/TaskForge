@@ -1,6 +1,6 @@
 import "./TaskList.css";
 
-import TaskCard from "../TaskCard/TaskCard";
+import TaskCard from "../TaskCard/Taskcard";
 import EmptyState from "./EmptyList";
 import TaskToolbar from "../TaskToolbar/TaskToolbar";
 
