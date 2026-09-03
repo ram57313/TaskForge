@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import "./Dashboard.css";
+import "./dashboard.css";
 
 import WelcomeCard from "../components/WelcomeCard/WelcomeCard.jsx";
 import Stats from "../components/Stats/Stats.jsx";
