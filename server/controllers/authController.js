@@ -51,7 +51,7 @@ exports.signup=catchAsync(async(req,res,next)=>{
     try{
        new Email(newuser).sendWelcome();
    }catch(err){
-       console.error("something went wrong in sending the email",err);
+       console.error("something went wrong in sending the email");
    }
      createSendToken(newuser,200,res);
 
@@ -128,7 +128,7 @@ exports.protect=catchAsync(async(req,res,next)=>{
     }
 
     if(!token)return next(new AppError('you are not logged in ,Please login',401));
-    console.log(token);
+    // console.log(token);
 
      const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
@@ -192,7 +192,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
     catch (err) {
 
-        console.log("Password reset email error:", err);
+        // console.log("Password reset email error:", err);
 
 
         user.passwordResetToken = undefined;

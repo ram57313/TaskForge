@@ -6,7 +6,7 @@ const handleCastErrorDB=(err)=>{
 }
 const handleDuplicateFieldErrorDB=(err)=>{
   const value=err.message.match(/(["'])(?:\\.|[^\\])*?\1/)[0];
-  console.log(value);
+//   console.log(value);
   const message=`duplicate field value ${value}.please select another value`;
   return new AppError(message,400);
 }
@@ -20,13 +20,13 @@ const HandleJwtError=()=>{
 
 const handleValidationErrorDB=(err)=>{
     const errors=Object.values(err.errors).map(err=>err.message);
-    console.log(errors);
+    // console.log(errors);
     const message=`invalid input data ${errors.join('. ')}`;
     return new AppError(message,400);
 }
 
 const sendErrorDev=(err,req,res)=>{
-    console.log("development");
+    // console.log("development");
   if(req.originalUrl.startsWith('/api')){
       return res.status(err.statusCode).json({
           status:err.status,
@@ -35,7 +35,7 @@ const sendErrorDev=(err,req,res)=>{
           error:err
       });
   }
-  console.error("ERROR 🔴",err);
+//   console.error("ERROR 🔴",err);
   return res.status(res.statusCode).json('error',{
    title:'Something went wrong',
    msg:err.message
@@ -46,14 +46,14 @@ const sendErrorProd=(err,req,res)=>{
     if(req.originalUrl.startsWith('/api')){
 
         if(err.isOperational){
-            console.log("production operational");
+            // console.log("production operational");
            return  res.status(err.statusCode).json({
                 title:"something went wrong",
                 message:err.message
             })
         }
         else{
-            console.log("non operational");
+            // console.log("non operational");
            return res.status(500).json({
                 status:"error",
                 message:"something went wrong"
@@ -62,14 +62,14 @@ const sendErrorProd=(err,req,res)=>{
     }
 
     if (err.isOperational) {//if it is a trusted error 
-      console.log('operational production');
+    //   console.log('operational production');
       return res.status(err.statusCode).json('error',{
         title:'Something Went Wrong',
         msg: err.message,
       });
     } 
-      console.error('Error 🔴', err); //=>for developer
-      console.log('non operational');
+    //   console.error('Error 🔴', err); //=>for developer
+    //   console.log('non operational');
       return res.status(500).json('error',{
         //=>for client
         title: 'Something Went Wrong',
@@ -81,9 +81,9 @@ module.exports=(err,req,res,next)=>{
     err.statusCode=err.statusCode||500;
     err.status=err.status||'error';
 
-    console.log(err);
+    // console.log(err);
     if(process.env.NODE_ENV==='development'){
-        console.log("development");
+        // console.log("development");
         sendErrorDev(err,req,res);
     }else if(process.env.NODE_ENV==='production'){
        let error=err

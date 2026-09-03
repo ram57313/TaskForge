@@ -102,31 +102,32 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
 });
 
-exports.deleteMe=catchAsync(async(req,res,next)=>{//this should be there as there is  difference between logout and deleting account
-    const user=await User.findByIdAndUpdate(req.user.id,{
-        active:false,
-        deletedAt:new Date()
-    })
+// exports.deleteMe=catchAsync(async(req,res,next)=>{//this should be there as there is  difference between logout and deleting account
+//     const user=await User.findByIdAndUpdate(req.user.id,{
+//         active:false,
+//         deletedAt:new Date()
+//     })
 
-    res.clearCookie('jwt');
-
-    res.status(204).json({
-        status:"success",
-        message:"deleted Temporarily",
-        data:{
-            user:null
-        }
-    })
-})
-
-// exports.deleteMe=catchAsync(async(req,res,next)=>{
-//     const user=await User.findByIdAndDelete(req.user.id);
+//     res.clearCookie('jwt');
 
 //     res.status(204).json({
-//         status:"success", 
-//         data:null
+//         status:"success",
+//         message:"deleted Temporarily",
+//         data:{
+//             user:null
+//         }
 //     })
 // })
+
+exports.deleteMe=catchAsync(async(req,res,next)=>{ //instead deleting permanently,we will add ttl and temp deletion ....
+    const user=await User.findByIdAndDelete(req.user.id);
+    res.clearCookie("jwt");
+
+    res.status(204).json({
+        status:"success", 
+        data:null
+    })
+})
 
 exports.restoreUser=catchAsync(async(req,res,next)=>{//this is not required actually bcoz this is looked after by login
     const {email,password}=req.body;
@@ -138,7 +139,7 @@ exports.restoreUser=catchAsync(async(req,res,next)=>{//this is not required actu
             return next(new AppError("Incorrect Email or Password",401));
         }
     await user.save({validateBeforeSave:false});
-    console.log(user);
+    // console.log(user);
     if(!user)return next(new AppError("no user with that Id",404));
     user.password=undefined;//not letting it to come in response
 

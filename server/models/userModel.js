@@ -96,7 +96,7 @@ userSchema.pre('save', async function () {
 userSchema.methods.createResetToken=function(){
     const resetToken=crypto.randomBytes(32).toString('hex');
     this.passwordResetToken=crypto.createHash('sha256').update(resetToken).digest('hex');
-    console.log({ resetToken },this.passwordResetToken);
+    // console.log({ resetToken },this.passwordResetToken);
     this.passwordResetExpires=Date.now()+10*60*1000;
     return resetToken;
 }
@@ -110,14 +110,14 @@ userSchema.index(
     {expireAfterSeconds:60}
 )
 
-// userSchema.index(
-//     {createdAt:1},
-//     {expireAfterSeconds:60,
-//         partialFilterExpression:{
-//             isGuest:true
-//         }
-//     }
-// )
+userSchema.index(
+    {createdAt:1},
+    {expireAfterSeconds:24*60*60,
+        partialFilterExpression:{
+            isGuest:true
+        }
+    }
+)
 
 const User=mongoose.model('User',userSchema);
 module.exports=User;

@@ -5,9 +5,10 @@ const userRouter=require("./routes/userRoutes");
 const taskRouter=require("./routes/taskRoutes");
 const globalErrorHandler=require("./controllers/errorController");
 const cookieParser = require("cookie-parser");
-const ratelimit=require('express-rate-limit')
+// const ratelimit=require('express-rate-limit')
 const helmet=require('helmet');
 const cors=require("cors");
+const {generalLimiter}=require("./ratelimiters/ratelimiter");
 // const mongoSanitize=require("express-mongo-sanitize");
 // const xss=require("xss-clean")
 const hpp=require("hpp");
@@ -28,13 +29,8 @@ if(process.env.NODE_ENV=='development'){
 }
 
 
-const limiter=ratelimit({
-    max:200,
-    windowMs:60*60*1000,
-    message:'Too many requests from this IP,try after one hour'
-})
 
-app.use('/api',limiter);
+app.use('/api',generalLimiter);
 
 //reads data from body to req.body
 app.use(express.json({limit:'10kb'}));//body greater than 10kb is not accepted

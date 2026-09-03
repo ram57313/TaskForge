@@ -61,7 +61,7 @@ taskSchema.pre('save',function(){//this runs for only save or create
 
 taskSchema.index(
    {deletedAt:1},
-   {expireAfterSeconds:1*60*60}
+   {expireAfterSeconds:7*24*60*60}
 )
 
 
