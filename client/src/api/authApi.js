@@ -83,7 +83,7 @@ export const updateMe = async (userData) => {
 
 export const deleteMe = async () => {
 
-    return await api.patch(
+    return await api.delete(
         "/users/deleteMe"
     );
 

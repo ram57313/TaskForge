@@ -57,7 +57,7 @@ export default function Signup() {
 
       const res = await signup(formData);
       
-      console.log(res);
+      // console.log(res);
 
       toast.success(
         res.data.message || "Account created successfully!"

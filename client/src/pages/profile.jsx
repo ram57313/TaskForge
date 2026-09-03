@@ -142,7 +142,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
         catch (err) {
 
-            console.error(err);
+            // console.error(err);
 
             toast.error(
                 err?.response?.data?.message ||
@@ -245,7 +245,7 @@ const handlePasswordSubmit = async (e) => {
     }
     catch (err) {
 
-        console.error(err);
+        // console.error(err);
 
         toast.error(
             err?.response?.data?.message ||
@@ -281,7 +281,7 @@ const handleDeleteAccountConfirm = async () => {
         setUser(null);
 
         toast.success(
-            "Your account has been deactivated"
+            "Your account has been deleted successfully"
         );
 
         navigate("/login", {
@@ -291,11 +291,11 @@ const handleDeleteAccountConfirm = async () => {
     }
     catch (err) {
 
-        console.error(err);
+        // console.error(err);
 
         toast.error(
             err?.response?.data?.message ||
-            "Unable to deactivate account"
+            "Unable to Delete account"
         );
 
     }
@@ -781,12 +781,12 @@ const handleDeleteAccountConfirm = async () => {
                 <div>
 
                     <h2>
-                        Deactivate Account
+                        Delete Account
                     </h2>
 
                     <p>
 
-                        Deactivate your account and
+                        Delete your account and
                         sign out of TaskForge.
 
                     </p>
@@ -804,8 +804,8 @@ const handleDeleteAccountConfirm = async () => {
                     <FiTrash2 />
 
                     {deleting
-                        ? "Deactivating..."
-                        : "Deactivate Account"
+                        ? "Deleting..."
+                        : "Delete Account"
                     }
 
                 </button>
@@ -829,15 +829,19 @@ const handleDeleteAccountConfirm = async () => {
 
                             </div>
 
-                            <h2>
-                                Deactivate Account?
-                            </h2>
+                            {/* <div className="deactivate-content"> */}
 
-                            <p>
-                                Your account will be deactivated and
-                                you will be logged out. You can restore
-                                your account later.
-                            </p>
+                                <h2>
+                                    Delete Account?
+                                </h2>
+
+                                <p>
+                                    Your account will be deleted permanently 
+                                    
+                                </p>
+                                
+                            {/* </div> */}
+
 
                             <div className="confirm-actions">
 
@@ -866,8 +870,8 @@ const handleDeleteAccountConfirm = async () => {
                                 >
 
                                     {deleting
-                                        ? "Deactivating..."
-                                        : "Deactivate"
+                                        ? "Deleting...."
+                                        : "Delete"
                                     }
 
                                 </button>

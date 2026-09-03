@@ -12,7 +12,7 @@ import StatCard from "./StatCard";
 
 const Stats = ({statsdata}) => {
    
-  const finished=((statsdata.total-statsdata.pending)*100)/statsdata.total;
+  const finished=statsdata.total==0?0:((statsdata.total-statsdata.pending)*100)/statsdata.total;
 
   const res=Number(finished.toFixed(0));
 

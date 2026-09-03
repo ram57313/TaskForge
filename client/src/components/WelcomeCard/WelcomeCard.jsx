@@ -52,13 +52,13 @@ const WelcomeCard = ({stats}) => {
 
                 </p>
 
-                <button className="welcome-btn">
+                {/* <button className="welcome-btn">
 
                     <FiPlus />
 
                     <span>Create Task</span>
 
-                </button>
+                </button> */}
 
             </div>
 

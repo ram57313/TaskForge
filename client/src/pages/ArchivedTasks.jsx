@@ -38,7 +38,7 @@ const ArchivedTasks = () => {
 
             setTasks(response.data?.tasks || response.tasks || []);
         } catch (error) {
-            console.error("Error fetching archived tasks:", error);
+            // console.error("Error fetching archived tasks:", error);
             setTasks([]);
         } finally {
             setLoadingTasks(false);
@@ -57,7 +57,7 @@ const ArchivedTasks = () => {
                 prevTasks.filter((task) => task._id !== taskId)
             );
         } catch (error) {
-            console.error("Error restoring task:", error);
+            // console.error("Error restoring task:", error);
         }
     };
 
@@ -73,7 +73,7 @@ const ArchivedTasks = () => {
                 prevTasks.filter((task) => task._id !== selectedTask._id)
             );
         } catch (error) {
-            console.error("Error deleting task:", error);
+            // console.error("Error deleting task:", error);
         }
     };
 

@@ -59,7 +59,7 @@ const DeletedTasks = () => {
 
         catch (err) {
 
-            console.error(err);
+            // console.error(err);
 
         }
 
@@ -93,7 +93,7 @@ const DeletedTasks = () => {
 
         catch (err) {
 
-            console.error(err);
+            // console.error(err);
 
         }
 
@@ -117,7 +117,7 @@ const DeletedTasks = () => {
         }catch(err){
             
             toast.error(err.message||"something went wrong");
-            console.log(err);
+            // console.log(err);
         }
     }   
 

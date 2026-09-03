@@ -606,7 +606,7 @@
 
 .confirm-modal p{
 
-    margin:0 auto 25px;
+    margin:0 0 10px;
 
     max-width:340px;
 
@@ -844,7 +844,7 @@
 
     border:none;
 
-    background:transparent;
+    background:transparent; 
 
     color:#64748b;
 

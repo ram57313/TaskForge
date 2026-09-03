@@ -121,7 +121,7 @@ const Dashboard = () => {
 
     catch (err) {
 
-        console.error(err);
+        // console.error(err);
 
     }
 
@@ -229,7 +229,7 @@ const Dashboard = () => {
 
         catch (err) {
 
-            console.error(err);
+            // console.error(err);
 
         }
 
@@ -265,7 +265,7 @@ const Dashboard = () => {
 
         catch (err) {
 
-            console.error(err);
+            // console.error(err);
 
         }
 
@@ -293,7 +293,7 @@ const Dashboard = () => {
 
         catch (err) {
 
-            console.error(err);
+            // console.error(err);
 
         }
 
@@ -313,7 +313,7 @@ const Dashboard = () => {
 
     catch (err) {
 
-        console.error(err);
+        // console.error(err);
 
     }
  
@@ -334,7 +334,7 @@ const handleArchiveTask = async (task) => {
 
     catch (err) {
 
-        console.error(err);
+        // console.error(err);
 
     }
 
@@ -348,9 +348,9 @@ const fetchStats=async ()=>{
 
     
         setStats(res.stats);
-        console.log(res.stats);
+        // console.log(res.stats);
     }catch(err){
-        console.error(err);
+        // console.error(err);
     }
 }
 

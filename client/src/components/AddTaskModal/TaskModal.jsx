@@ -94,7 +94,7 @@ const AddTaskModal = ({
     /* -------------------------------- */
 
     const handleChange = (e) => {
-        console.log("Frontend dueDate:", formData.dueDate);
+        // console.log("Frontend dueDate:", formData.dueDate);
         setFormData({
 
             ...formData,

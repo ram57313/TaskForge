@@ -191,7 +191,7 @@ const Sidebar = ({ sidebarOpen }) => {
         </aside>
 
         {isopenModal&&
-            (<ConfirmModal title="Logout" message="Are you sure you want to logout" onCancel={()=>{setIsOpenModal(false)}} onConfirm={handleLogout}/>)
+            (<ConfirmModal title="Logout" message="Are you sure you want to logout" onCancel={()=>{setIsOpenModal(false)}} onConfirm={handleLogout} buttonText={"LOGOUT"}/>)
         }
       </>
     );

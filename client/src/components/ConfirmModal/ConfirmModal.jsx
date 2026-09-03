@@ -4,8 +4,11 @@ const ConfirmModal=({
     title,
     message,
     onCancel,
-    onConfirm
+    onConfirm,
+    buttonText
 })=>{
+
+    const text=buttonText?buttonText:"DELETE";
 
 
     return (
@@ -25,7 +28,7 @@ const ConfirmModal=({
 
                     <div className="confirm-buttons">
                         <button onClick={onCancel}>CANCEL</button>
-                        <button onClick={onConfirm}>DELETE</button>
+                        <button onClick={onConfirm}>{text}</button>
                     </div>
 
                 </div>

@@ -10,7 +10,7 @@ export default function Header({buttonText,buttonLink}) {
         className="logo"
         onClick={() => navigate("/")}
       >
-        TaskForge
+        Task<span style={{"color":"#2563eb",}}>Forge</span>
       </h1>
 
       <button

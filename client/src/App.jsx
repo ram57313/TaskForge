@@ -17,7 +17,7 @@ import PublicRoute from "./components/PublicRoute";
 import ArchivedTasks from "./pages/ArchivedTasks";
 
 
-import MainLayout from "./layouts/MainLayout";
+import MainLayout from "./Layouts/Mainlayout";
 
 import { useAuth } from "./context/AuthContext";
 

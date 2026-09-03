@@ -15,7 +15,7 @@ import { useAuth } from "../../context/AuthContext";
 const Navbar = ({
     toggleSidebar,
     sidebarOpen,
-    openCreateTaskModal
+    // openCreateTaskModal
 }) => {
 
     const navigate = useNavigate();
@@ -47,7 +47,7 @@ const Navbar = ({
                     />
 
                 </button>
-
+            </div>
 
                 <button
                     className="logo-btn"
@@ -65,12 +65,9 @@ const Navbar = ({
 
                 </button>
 
-            </div>
-
-
             {/* CENTER */}
 
-            <div className="navbar-center">
+            {/* <div className="navbar-center">
 
                 <div className="search-box">
 
@@ -86,7 +83,7 @@ const Navbar = ({
 
                 </div>
 
-            </div>
+            </div> */}
 
 
             {/* RIGHT */}
@@ -94,7 +91,7 @@ const Navbar = ({
             <div className="navbar-right">
 
 
-                <button
+                {/* <button
                     className="new-task-btn"
                     onClick={openCreateTaskModal}
                     type="button"
@@ -106,10 +103,10 @@ const Navbar = ({
                         New Task
                     </span>
 
-                </button>
+                </button> */}
 
 
-                <button
+                {/* <button
                     className="icon-btn"
                     type="button"
                     aria-label="Notifications"
@@ -117,7 +114,7 @@ const Navbar = ({
 
                     <FiBell />
 
-                </button>
+                </button> */}
 
 
                 <button

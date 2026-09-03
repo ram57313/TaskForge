@@ -11,11 +11,11 @@ export function AuthProvider({ children }) {
     const checkAuth = async () => {
         try {
             const res = await getCurrentUser();
-            console.log(res.data.user);
+            // console.log(res.data.user);
             setUser(res.data.user);
         } catch (err) {
             setUser(null);
-            console.error("🔴Error from checkAuth",err);
+            // console.error("🔴Error from checkAuth",err);
         } finally {
             setLoading(false);
         }
