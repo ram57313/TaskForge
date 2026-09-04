@@ -88,8 +88,8 @@ exports.logout=catchAsync(async(req,res,next)=>{
     
         res.clearCookie('jwt',{
             httpOnly:true,
-            secure:false,
-            sameSite:"lax"
+            secure:process.env.NODE_ENV==="production",
+            sameSite:process.env.NODE_ENV==="production"?"none":"lax";
         });
      
         res.status(200).json({
